@@ -10,14 +10,26 @@ const UserSchema = mongoose.Schema({
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
 	email: { type: String, required: true },
-	// players: [{ type: Schema.Types.ObjectId, ref: 'Player' }]
+	phone: { type: String, required: true },
+	texting: { type: Boolean, required: true },
+	address: { type: String, required: true },
+	city: { type: String,required: true },
+	zipcode: { type: String, required: true },
+	players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
+	admin: { type: Boolean, required: true, default: false }
+});
+
+UserSchema.virtual('fullName').get(function() {
+	return `${this.firstName} ${this.lastName}`;
 });
 
 UserSchema.methods.serialize = function() {
 	return {
+		id: this._id,
 		username: this.username || '',
 		firstName: this.firstName || '',
-		lastName: this.lastName || ''
+		lastName: this.lastName || '',
+		admin: this.admin
 	};
 };
 

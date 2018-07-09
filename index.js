@@ -14,6 +14,7 @@ const app = express();
 
 const { router: usersRouter } = require('./routes/users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const { router: playersRouter } = require('./routes/players');
 
 app.use(bodyParser.json());
 
@@ -37,6 +38,7 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use('/api/users/', usersRouter);
+app.use('/api/players/', playersRouter);
 app.use('/auth/', authRouter);
 
 

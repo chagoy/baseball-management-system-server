@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const router = express.Router();
 
+const {Player} = require('../models/player');
+
 const createAuthToken = function(user) {
 	return jwt.sign({user}, config.JWT_SECRET, {
 		subject: user.username,
@@ -21,7 +23,8 @@ const localAuth = passport.authenticate('local', {session: false, failWithError:
 router.use(bodyParser.json());
 
 router.post('/login', localAuth, (req, res) => {
-	const authToken = createAuthToken(req.user.serialize());
+	const authToken = createAuthToken(req.user);
+	console.log({authToken})
 	res.json({authToken});
 });
 
@@ -31,5 +34,12 @@ router.post('/refresh', jwtAuth, (req, res) => {
 	const authToken = createAuthToken(req.user);
 	res.json({authToken});
 });
+
+router.get('/protected', jwtAuth, (req, res) => {
+	return Player.find({})
+			.then(data => {
+				res.json(data);
+			})
+})
 
 module.exports = {router};

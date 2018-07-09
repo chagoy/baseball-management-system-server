@@ -23,7 +23,7 @@ router.post('/', jsonParser, (req, res, next) => {
 	const stringFields = ['username', 'password', 'email', 'firstName', 'lastName'];
 	const nonStringField = stringFields.find(
 		field => field in req.body && typeof req.body[field] !== 'string'
-	);
+		);
 
 	if (nonStringField) {
 		return res.status(422).json({
@@ -70,9 +70,11 @@ router.post('/', jsonParser, (req, res, next) => {
 		});
 	}
 
-	let {username, password, email, firstName = '', lastName = ''} = req.body;
+	let {username, password, email, firstName = '', lastName = '', phone, texting, address, city, zipcode } = req.body;
 	firstName = firstName.trim();
 	lastName = lastName.trim();
+
+
 
 	return User.find({username})
 		.count()
@@ -93,13 +95,19 @@ router.post('/', jsonParser, (req, res, next) => {
 				password: hash,
 				email,
 				firstName,
-				lastName
+				lastName,
+				phone, 
+				texting: texting === 'Yes' ? true : false,
+				address,
+				city,
+				zipcode
 			});
 		})
 		.then(user => {
 			return res.status(201).json(user.serialize());
 		})
 		.catch(err => {
+			console.log(err);
 			if (err.reason === 'ValidationError') {
 				return res.status(err.code).json(err);
 			}
@@ -107,9 +115,6 @@ router.post('/', jsonParser, (req, res, next) => {
 		});
 });
 
-router.get('/', jsonParser, (req, res) => {
-	console.log('lkasjf')
-	return res.status();
-})
+
 
 module.exports = {router};

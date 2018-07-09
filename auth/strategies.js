@@ -26,7 +26,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
 					message: 'Incorrect username or password'
 				});
 			}
-			return callback(null, user);
+			return callback(null, user.serialize());
 		})
 		.catch(err => {
 			if (err.reason === 'LoginError') {
@@ -44,4 +44,4 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
 			done(null, payload.user);
 		});
 
-		module.exports = { localStrategy, jwtStrategy}
+		module.exports = { localStrategy, jwtStrategy };

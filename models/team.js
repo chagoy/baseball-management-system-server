@@ -1,0 +1,14 @@
+'use strict';
+
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+const TeamSchema = mongoose.Schema({
+	name: { type: String, required: true },
+	division: { type: String, required: true }
+});
+
+const Team = mongoose.model('Team', TeamSchema);
+
+module.exports = {Team};
