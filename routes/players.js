@@ -9,11 +9,9 @@ const jsonParser = bodyParser.json();
 
 const passport = require('passport');
 
-
 const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
 
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
-	console.log(req.user.id);
 	const requiredFields = ['firstName', 'lastName', 'month', 'day', 'year', 'sport', 'division', 'waiver'];
 	const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -86,12 +84,12 @@ router.get('/:id', jsonParser, (req, res, next) => {
 
 	return Player.findById({_id: id}, function(err, player) {
 		console.log(player);
-		return res.status(201).json(player);
+		return res.json(player);
 	})
 	.catch(err => console.error(err));
 })
 
-router.post('/:id/paid', jsonParser, (req, res, next) => {
+router.post('/:id/paid', jwtAuth, (req, res, next) => {
 	const {id} = req.params;
 	return Player.findById({_id: id})
 		.then(player => {
@@ -99,5 +97,16 @@ router.post('/:id/paid', jsonParser, (req, res, next) => {
 		})
 		.catch(err => console.error(err));
 });
+
+router.put('/:id/division', jwtAuth, (req, res, next) => {
+	const {id} = req.params;
+	const {division} = req.body;
+
+	return Player.findByIdAndUpdate({_id: id}, {$set: {division}}, {new: true})
+		.then(player => {
+			return res.status(201).json(player);
+		})
+		.catch(err => console.error(err));
+})
 
 module.exports = {router};
