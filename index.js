@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
+require ('dotenv').config();
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
@@ -34,6 +35,10 @@ app.use(function (req, res, next) {
   }
   next();
 });
+
+app.use(cors({
+  origin: process.env.CLIENT_ORIGIN || 'http://localhost:8080'
+}))
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
