@@ -13,6 +13,7 @@ const PlayerSchema = mongoose.Schema({
  	sport: {type: String, required: true, default: 'baseball' },
  	paid: { type: Boolean, default: false },
  	division: { type: String, required: true },
+ 	waiver: { type: String, required: true },
  	// certificate: { type: File, default: null }
  	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
  });

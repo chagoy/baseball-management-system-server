@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const {Player} = require('../models/player');
 const {User} = require('../models/user');
+const Team = require('../models/team');
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
@@ -82,11 +83,13 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 router.get('/:id', jsonParser, (req, res, next) => {
 	const {id} = req.params;
 
-	return Player.findById({_id: id}, function(err, player) {
-		console.log(player);
-		return res.json(player);
+	return Player.findById({_id: id}).populate('team').exec(function(err, player) {
+		if (err) {
+			console.error(err)
+		} else {
+			return res.status(201).json(player)
+		}
 	})
-	.catch(err => console.error(err));
 })
 
 router.post('/:id/paid', jwtAuth, (req, res, next) => {
@@ -107,6 +110,21 @@ router.put('/:id/division', jwtAuth, (req, res, next) => {
 			return res.status(201).json(player);
 		})
 		.catch(err => console.error(err));
-})
+});
+
+router.put('/:id/team', jwtAuth, (req, res, next) => {
+	const {id} = req.params;
+	const {team} = req.body;
+	console.log(team.team);
+	return Player.findOneAndUpdate({_id: id}, {$set: {team}}, {new: true})
+		.populate('team')
+		.exec(function(err, player) {
+			if (err) {
+				console.error(err)
+			} else {
+				return res.status(201).json(player);
+			}
+		});
+});
 
 module.exports = {router};
