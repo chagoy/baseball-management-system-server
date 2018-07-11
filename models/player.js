@@ -15,7 +15,8 @@ const PlayerSchema = mongoose.Schema({
  	division: { type: String, required: true },
  	waiver: { type: String, required: true },
  	// certificate: { type: File, default: null }
- 	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+ 	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+ 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
  });
 
 PlayerSchema.virtual('fullName').get(function() {

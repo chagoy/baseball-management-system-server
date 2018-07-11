@@ -37,6 +37,8 @@ router.post('/refresh', jwtAuth, (req, res) => {
 
 router.get('/protected', jwtAuth, (req, res) => {
 	return Player.find({})
+			.populate('team')
+			.populate('user')
 			.then(data => {
 				res.json(data);
 			})

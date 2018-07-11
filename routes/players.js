@@ -39,6 +39,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	}
 
 	let {firstName, lastName, sport, division, month, day, year, waiver} = req.body;
+	let user = req.user.id;
 	firstName = firstName.trim();
 	lastName = lastName.trim();
 	let player = '';
@@ -58,7 +59,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		})
 		.then(() => {
 			return Player.create({
-				firstName, lastName, sport, division, month, day, year, waiver
+				firstName, lastName, sport, division, month, day, year, waiver, user
 			})
 		})
 		.then(_player => {
@@ -80,17 +81,34 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		});
 });
 
-router.get('/:id', jsonParser, (req, res, next) => {
+router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 	const {id} = req.params;
-
-	return Player.findById({_id: id}).populate('team').exec(function(err, player) {
+	const user = req.user.id
+	console.log(req.user.id)
+	if (req.user.admin) {
+		return Player.findById({_id: id})
+		.populate('team')
+		.populate('user')
+		.exec(function(err, player) {
 		if (err) {
 			console.error(err)
 		} else {
 			return res.status(201).json(player)
 		}
-	})
-})
+	}) 
+	} else {
+		return Player.findOne({_id: id, user: user})
+		.populate('team')
+		.populate('user')
+		.exec(function(err, player) {
+			if (err) {
+				console.error(err)
+			} else {
+				return res.status(201).json(player)
+			}
+		});
+	}
+});
 
 router.post('/:id/paid', jwtAuth, (req, res, next) => {
 	const {id} = req.params;
