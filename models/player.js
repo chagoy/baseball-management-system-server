@@ -14,7 +14,7 @@ const PlayerSchema = mongoose.Schema({
  	paid: { type: Boolean, default: false },
  	division: { type: String, required: true },
  	waiver: { type: String, required: true },
- 	// certificate: { type: File, default: null }
+ 	certificate: { data: Buffer, contentType: String },
  	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
  	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
  });

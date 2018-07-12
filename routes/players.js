@@ -38,12 +38,13 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		});
 	}
 
-	let {firstName, lastName, sport, division, month, day, year, waiver} = req.body;
+	let {firstName, lastName, sport, division, month, day, year, waiver, certificate} = req.body;
 	let user = req.user.id;
 	firstName = firstName.trim();
 	lastName = lastName.trim();
 	let player = '';
 	let id = '';
+	console.log(certificate);
 
 	return Player.find({firstName, lastName, month, day, year})
 		.count()
@@ -59,7 +60,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		})
 		.then(() => {
 			return Player.create({
-				firstName, lastName, sport, division, month, day, year, waiver, user
+				firstName, lastName, sport, division, month, day, year, waiver, user, certificate
 			})
 		})
 		.then(_player => {
@@ -69,8 +70,8 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 				{$push: { players: _player.id }}
 			);
 		})
-		.then((player) => {
-			return res.status(201).json(player.serialize());
+		.then(() => {
+			return res.status(201).json(player);
 		})
 		.catch(err => {
 			console.log(err);
@@ -83,8 +84,8 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 
 router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 	const {id} = req.params;
-	const user = req.user.id
-	console.log(req.user.id)
+	const user = req.user.id;
+
 	if (req.user.admin) {
 		return Player.findById({_id: id})
 		.populate('team')
