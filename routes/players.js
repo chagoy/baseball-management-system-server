@@ -110,9 +110,11 @@ router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 	}
 });
 
-router.post('/:id/paid', jwtAuth, (req, res, next) => {
+router.post('/:id/paid', jwtAuth, jsonParser, (req, res, next) => {
 	const {id} = req.params;
-	return Player.findById({_id: id})
+	const {paid} = req.body;
+	console.log(paid);
+	return Player.findByIdAndUpdate({_id: id}, {paid: paid}, {new: true}).populate('team').populate('user')
 		.then(player => {
 			return res.status(201).json(player);
 		})
@@ -133,7 +135,7 @@ router.put('/:id/division', jwtAuth, (req, res, next) => {
 router.put('/:id/team', jwtAuth, (req, res, next) => {
 	const {id} = req.params;
 	const {team} = req.body;
-	console.log(team.team);
+	console.log(team);
 	return Player.findOneAndUpdate({_id: id}, {$set: {team}}, {new: true})
 		.populate('team')
 		.exec(function(err, player) {
