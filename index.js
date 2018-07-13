@@ -26,7 +26,7 @@ app.use(
   })
 );
 
-app.use(cors());
+// app.use(cors());
 // app.use(function (req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
 //   res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
@@ -37,9 +37,9 @@ app.use(cors());
 //   next();
 // });
 
-// app.use(cors({
-//   origin: process.env.CLIENT_ORIGIN || 'http://localhost:8080'
-// }))
+app.use(cors({
+  origin: CLIENT_ORIGIN
+}))
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
