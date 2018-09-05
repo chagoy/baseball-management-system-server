@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const passport = require('passport');
 require ('dotenv').config();
 
+const stripe = require('stripe')(process.env.STRIPE_KEY);
+
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
@@ -38,7 +40,7 @@ app.use(
 // });
 
 app.use(cors({
-  origin: CLIENT_ORIGIN
+  origin: '*'
 }))
 
 passport.use(localStrategy);
@@ -49,7 +51,21 @@ app.use('/api/players/', playersRouter);
 app.use('/api/teams/', teamsRouter);
 app.use('/auth/', authRouter);
 
-
+app.post('/api/stripe', async (req, res) => {
+  // console.log(req.body);
+  try {
+    let {status} = await stripe.charges.create({
+        amount: 2000,
+        currency: 'usd',
+        description: 'an example charge',
+        source: req.body.token.id
+    });
+    console.log(status);
+    res.json({status});
+  } catch (err) {
+    res.status(500).json(err).end();
+  }
+});
 
 function runServer(port = PORT) {
   const server = app
