@@ -4,13 +4,17 @@ const bodyParser = require('body-parser');
 
 const {Player} = require('../models/player');
 const {User} = require('../models/user');
-const Team = require('../models/team');
+const {Team} = require('../models/team');
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
 const passport = require('passport');
 
 const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
+
+router.get('/', jwtAuth, jsonParser, (req, res, next) => {
+	return Player.find({}).then(data => res.json(data));
+})
 
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	const requiredFields = ['firstName', 'lastName', 'month', 'day', 'year', 'sport', 'division', 'waiver'];
@@ -60,7 +64,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		})
 		.then(() => {
 			return Player.create({
-				firstName, lastName, sport, division, month, day, year, waiver, user, certificate
+				firstName, lastName, sport, division, month, day, year, waiver, user, certificate, paid: true
 			})
 		})
 		.then(_player => {
@@ -126,26 +130,50 @@ router.put('/:id/division', jwtAuth, (req, res, next) => {
 	const {id} = req.params;
 	const {division} = req.body;
 
-	return Player.findByIdAndUpdate({_id: id}, {$set: {division}}, {new: true})
+	return Player.findByIdAndUpdate({_id: id}, {$set: {division}}, {new: true}).populate('user')
 		.then(player => {
 			return res.status(201).json(player);
 		})
 		.catch(err => console.error(err));
 });
 
-router.put('/:id/team', jwtAuth, (req, res, next) => {
+router.put('/:id/team', jwtAuth, async (req, res, next) => {
 	const {id} = req.params;
 	const {team} = req.body;
-	console.log(team);
-	return Player.findOneAndUpdate({_id: id}, {$set: {team}}, {new: true})
-		.populate('team')
-		.exec(function(err, player) {
-			if (err) {
-				console.error(err)
-			} else {
-				return res.status(201).json(player);
-			}
-		});
+	console.log('the team is :' + team)
+	console.log('the id is :' + id)
+
+	return Team.findOneAndUpdate({_id: team}, { $push: {players: id}})
+				.then(() => { 
+					return Player.findOneAndUpdate({_id : id}, {$set: {team} }, {new: true}).populate('team').populate('user')
+				})
+				.then(data => {
+					res.json(data)
+				})
+	// return Team.findOne({_id: id})
+	// 	.then(data => {
+	// 		console.log(data)
+	// 		return Player.findOneAndUpdate({_id: id}, {$set: {team}}, {new: true})
+	// 			.populate('team')
+	// 			.exec(function(err, player) {
+	// 				if (err) {
+	// 					console.error(err)
+	// 				} else {
+	// 					return res.status(201).json(player);
+	// 				}
+	// 			})
+	// 	})
+
+	// return Team.findOneAndUpdate({team: team}, {$push: { players: id}}).then(data => {
+	// 		Player.findOneAndUpdate({_id: id}, {$set: {team}}, {new: true})
+	// 		.populate('team')
+	// 		.exec(function(err, player) {
+	// 			if (err) {
+	// 				console.error(err)
+	// 			} else {
+	// 				return res.status(201).json(player);
+	// 			}
+	// 		});
 });
 
 module.exports = {router};

@@ -18,7 +18,7 @@ const app = express();
 const { router: usersRouter } = require('./routes/users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 const { router: playersRouter } = require('./routes/players');
-const teamsRouter = require('./routes/teams');
+const { router: teamsRouter } = require('./routes/teams');
 
 app.use(bodyParser.json());
 

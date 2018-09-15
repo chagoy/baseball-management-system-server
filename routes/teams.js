@@ -76,4 +76,18 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 			})
 })
 
-module.exports = router;
+router.get('/:team', jsonParser, (req, res, next) => {
+	const {team} = req.params;
+	
+	return Team.findOne({name: team}).populate('players')
+			.then(data => {
+				if (data) {
+					res.status(201).json(data);
+				} else {
+					throw new Error('team is not found')
+				}
+			})
+			.catch(err => console.error(err.message))
+})
+
+module.exports = {router};

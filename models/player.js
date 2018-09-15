@@ -29,7 +29,7 @@ PlayerSchema.virtual('dob').get(function() {
 
 PlayerSchema.virtual('playingAge').get(function() {
 		let currentAge = moment([this.year, this.month - 1, this.day]);
-		let cutoff = moment([2018, 7, 31]);
+		let cutoff = moment([2019, 7, 31]);
 		let playingAge = cutoff.diff(currentAge, 'years', true);
 		return playingAge.toFixed(3);
 })
