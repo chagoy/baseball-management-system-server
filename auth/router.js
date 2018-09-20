@@ -9,6 +9,7 @@ const config = require('../config');
 const router = express.Router();
 
 const {Player} = require('../models/player');
+const {User} = require('../models/user');
 
 const createAuthToken = function(user) {
 	return jwt.sign({user}, config.JWT_SECRET, {
@@ -36,12 +37,19 @@ router.post('/refresh', jwtAuth, (req, res) => {
 });
 
 router.get('/protected', jwtAuth, (req, res) => {
-	return Player.find({})
+	
+	if (req.user.admin) {
+		return Player.find({})
 			.populate('team')
 			.populate('user')
 			.then(data => {
 				res.json(data);
 			})
+	} else {
+		return Player.find({user: req.user.id})
+			.populate('team')
+			.then(data => {res.json(data)})
+	}
 })
 
 module.exports = {router};

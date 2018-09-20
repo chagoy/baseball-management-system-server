@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const {Team} = require('../models/team');
 const {Player} = require('../models/player');
+const {Season} = require('../models/season');
+
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
@@ -47,6 +49,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	}
 
 	let {name, division} = req.body;
+	let team = '';
 	name = name.trim();
 	return Team.find({name, division})
 			.count()
@@ -55,17 +58,22 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 					return Promise.reject({
 						code: 422, 
 						reason: 'ValidationError',
-						message: 'Player already exists',
+						message: 'Team already exists',
 						location: 'name'
 					});
 				}
 			})
 			.then(() => {
 				return Team.create({
-					name, division
+					name, division, season: '5ba2bd394a76af4ad3ee4c3a'
 				})
 			})
-			.then(team => {
+			.then(_team => {
+				team = _team;
+				console.log(team)
+				return Season.findByIdAndUpdate({_id: '5ba2bd394a76af4ad3ee4c3a'}, {$push: { teams: team._id }});
+			})
+			.then(() => {
 				return res.status(201).json(team);
 			})
 			.catch(err => {

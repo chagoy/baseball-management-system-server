@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const {Player} = require('../models/player');
 const {User} = require('../models/user');
 const {Team} = require('../models/team');
+const {Season} = require('../models/season');
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
@@ -73,6 +74,9 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 				{_id: req.user.id}, 
 				{$push: { players: _player.id }}
 			);
+		})
+		.then(() => {
+			return Season.findByIdAndUpdate({_id: '5ba2bd394a76af4ad3ee4c3a'}, {$push: { players: player.id }});
 		})
 		.then(() => {
 			return res.status(201).json(player);

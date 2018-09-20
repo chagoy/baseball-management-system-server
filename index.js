@@ -19,6 +19,8 @@ const { router: usersRouter } = require('./routes/users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 const { router: playersRouter } = require('./routes/players');
 const { router: teamsRouter } = require('./routes/teams');
+const { router: seasonsRouter } = require('./routes/seasons')
+const { router: gamesRouter } = require('./routes/games');
 
 app.use(bodyParser.json());
 
@@ -49,6 +51,8 @@ passport.use(jwtStrategy);
 app.use('/api/users/', usersRouter);
 app.use('/api/players/', playersRouter);
 app.use('/api/teams/', teamsRouter);
+app.use('/api/seasons/', seasonsRouter);
+app.use('/api/games/', gamesRouter);
 app.use('/auth/', authRouter);
 
 app.post('/api/stripe', async (req, res) => {
