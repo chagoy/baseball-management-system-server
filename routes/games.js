@@ -12,6 +12,22 @@ const jsonParser = bodyParser.json();
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false, failWithError: true});
 
+router.get('/', (req, res, next) => {
+	return Game.find({season: "5ba2bd394a76af4ad3ee4c3a"})
+			.populate('home')
+			.populate('away')
+			.then(games => res.status(201).json(games))
+			.catch(err => console.error(err.message))
+});
+
+router.get('/:id', (req, res, next) => {
+	let { id } = req.params;
+	console.log(id)
+	return Game.find({$or: [{home: id}, {away: id}]})
+			.then(games => res.status(201).json(games))
+			.catch(err => console.error(err))
+})
+
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	const requiredFields = ['home', 'away', 'time', 'location'];
 	const missingField = requiredFields.find(field => !(field in req.body));
