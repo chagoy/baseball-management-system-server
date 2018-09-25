@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const {Team} = require('../models/team');
 const {Season} = require('../models/season');
 const {Game} = require('../models/game');
+const moment = require('moment');
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
@@ -13,7 +14,17 @@ const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false, failWithError: true});
 
 router.get('/', (req, res, next) => {
-	return Game.find({season: "5ba2bd394a76af4ad3ee4c3a"})
+	let today = moment().startOf('day').toISOString();
+	let end = moment(today).add(6, 'months').toISOString();
+
+	return Game.find({
+		season: "5ba2bd394a76af4ad3ee4c3a", 
+		time: {
+			$gte: today,
+			$lt: end
+		}
+	})
+			.sort({time: 1})
 			.populate('home')
 			.populate('away')
 			.then(games => res.status(201).json(games))
@@ -56,6 +67,8 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 
 	let {home, away, location, time} = req.body;
 	let game;
+	time = moment(time, 'MM-DD-YYYY h:mm a').toISOString();
+
 	return Game.create({
 		home, away, location, time, season: '5ba2bd394a76af4ad3ee4c3a'
 	})
