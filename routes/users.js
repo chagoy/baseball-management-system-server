@@ -5,6 +5,16 @@ const bodyParser = require('body-parser');
 const {User} = require('../models/user');
 const router = express.Router();
 const jsonParser = bodyParser.json();
+const crypto = require('crypto');
+const moment = require('moment');
+
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+router.get('/:id', jsonParser, (req, res, next) => {
+	const { id } = req.params;
+	return User.findOne({_id: id}).then(user => res.json(user))
+})
 
 router.post('/', jsonParser, (req, res, next) => {
 	console.log(req.body);
@@ -74,7 +84,10 @@ router.post('/', jsonParser, (req, res, next) => {
 	firstName = firstName.trim();
 	lastName = lastName.trim();
 
-
+	const secret = moment().toISOString();
+	const verificationCode = crypto.createHmac('sha256', secret)
+										.update('lebron')
+										.digest('hex');
 
 	return User.find({username})
 		.count()
@@ -100,10 +113,19 @@ router.post('/', jsonParser, (req, res, next) => {
 				texting: texting === 'Yes' ? true : false,
 				address,
 				city,
-				zipcode
+				zipcode,
+				hash: verificationCode
 			});
 		})
 		.then(user => {
+			const msg = {
+			  to: user.email,
+			  from: 'blah@mpk.com',
+			  subject: 'Thank you for registering!',
+			  text: 'and easy to do anywhere, even with Node.js',
+			  html: `<strong>and easy to do anywhere, even with Node.js</strong> click <a href="/${user.verificationCode}">here</a> to verify your account`,
+			};
+			sgMail.send(msg);
 			return res.status(201).json(user.serialize());
 		})
 		.catch(err => {
@@ -115,6 +137,22 @@ router.post('/', jsonParser, (req, res, next) => {
 		});
 });
 
+router.get('/verification/:hash', (req, res, next) => {
+	const { hash } = req.params
+	console.log(hash)
+	return User.findOneAndUpdate(
+	{
+		hash
+	}, 
+	{ 
+		$set: { verified: true }
+	},
+	{
+		new: true
+	})
+	.then(user => res.json(user))
+	.catch(err => console.error(err))
+})
 
 
 module.exports = {router};

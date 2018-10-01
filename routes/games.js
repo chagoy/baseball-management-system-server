@@ -6,6 +6,7 @@ const {Team} = require('../models/team');
 const {Season} = require('../models/season');
 const {Game} = require('../models/game');
 const moment = require('moment');
+const crypto = require('crypto');
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
@@ -32,11 +33,21 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
+	const { id } = req.params;
+	return Game.findOne({_id: id})
+		.populate('home')
+		.populate('away')
+		.then(game => res.status(201).json(game))
+		.catch(err => console.error(err))
+});
+
+router.get('/byteam/:id', (req, res, next) => {
 	let { id } = req.params;
 	console.log(id)
 	return Game.find({$or: [{home: id}, {away: id}]})
 			.then(games => res.status(201).json(games))
 			.catch(err => console.error(err))
+
 })
 
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
