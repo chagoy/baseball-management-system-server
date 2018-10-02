@@ -16,7 +16,10 @@ const UserSchema = mongoose.Schema({
 	city: { type: String,required: true },
 	zipcode: { type: String, required: true },
 	players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
-	admin: { type: Boolean, required: true, default: false }
+	admin: { type: Boolean, required: true, default: false },
+	verified: { type: Boolean, default: false },
+	hash: { type: String, required: true},
+	resetToken: { type: String, default: null }
 });
 
 UserSchema.virtual('fullName').get(function() {
@@ -29,7 +32,8 @@ UserSchema.methods.serialize = function() {
 		username: this.username || '',
 		firstName: this.firstName || '',
 		lastName: this.lastName || '',
-		admin: this.admin
+		admin: this.admin, 
+		fullName: this.fullName
 	};
 };
 
@@ -41,7 +45,19 @@ UserSchema.statics.hashPassword = function(password) {
 	return bcrypt.hash(password, 10);
 };
 
-UserSchema.set('toObject', {virtuals: true})
+UserSchema.set('toObject', {
+	transform: function(doc, ret) {
+		delete ret._id;
+		delete ret.password;
+	}
+}, {virtuals: true});
+
+UserSchema.set('toJson', {
+	transform: function(doc, ret) {
+		delete ret._id;
+		delete ret.password;
+	}
+}, {virtuals: true});
 
 
 const User = mongoose.model('User', UserSchema);

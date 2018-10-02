@@ -6,6 +6,7 @@ const {Team} = require('../models/team');
 const {Season} = require('../models/season');
 const {Game} = require('../models/game');
 const moment = require('moment');
+const crypto = require('crypto');
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
@@ -32,11 +33,21 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
+	const { id } = req.params;
+	return Game.findOne({_id: id})
+		.populate('home')
+		.populate('away')
+		.then(game => res.status(201).json(game))
+		.catch(err => console.error(err))
+});
+
+router.get('/byteam/:id', (req, res, next) => {
 	let { id } = req.params;
 	console.log(id)
 	return Game.find({$or: [{home: id}, {away: id}]})
 			.then(games => res.status(201).json(games))
 			.catch(err => console.error(err))
+
 })
 
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
@@ -85,6 +96,44 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		}
 		res.status(500).json({code: 500, message: 'internal server error'})
 	})
+})
+
+router.put('/:id/scores', jwtAuth, async (req, res, next) => {
+	const { id } = req.params;
+	const { home, away } = req.body;
+	let game = await Game.findByIdAndUpdate({_id: id});
+
+	if (req.user.admin) {
+		if (home > away) {
+			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
+			.then(() => {
+				return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}})
+			})
+			.then(() => {
+				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away, winner: game.home, loser: game.away}, {$new: true})
+			})
+			.then(updatedGame => res.status(201).json(updatedGame))
+		} else if (away > home) {
+			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"wins": 1}})
+			.then(() => {
+				return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}})
+			})
+			.then(() => {
+				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away, winner: game.away, loser: game.home}, {$new: true })
+			})
+			.then(updatedGame => res.status(201).json(updatedGame))
+		} else if (away == home) {
+			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"draws": 1}})
+			.then(() => {
+				return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"draws": 1}})
+			})
+			.then(() => {
+				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away}, { $new: true })
+			})
+		}
+	} else {
+		res.status(422).json({message: 'You are not authorized to update scores'})
+	}
 })
 
 module.exports = { router };

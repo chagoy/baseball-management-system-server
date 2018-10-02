@@ -7,8 +7,20 @@ const TeamSchema = mongoose.Schema({
 	name: { type: String, required: true },
 	division: { type: String, required: true },
 	players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
-	season: { type: mongoose.Schema.Types.ObjectId, ref: 'Season' }
+	season: { type: mongoose.Schema.Types.ObjectId, ref: 'Season' },
+	wins: { type: Number, default: 0 },
+	losses: { type: Number, default: 0 },
+	draws: { type: Number, default: 0 }
 });
+
+TeamSchema.virtual('record').get(function() {
+	if (this.draws) {
+		return `${this.wins}-${this.losses}-${this.draws}`;
+	}
+	return `${this.wins}-${this.losses}`;
+});
+
+TeamSchema.set('toObject', {virtuals: true})
 
 const Team = mongoose.model('Team', TeamSchema);
 

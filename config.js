@@ -6,3 +6,5 @@ exports.JWT_SECRET = process.env.JWT_SECRET || 'the_secret_key';
 exports.JWT_EXPIRY = process.env.JWT_EXPIRY || '15m';
 exports.CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:8080';
 exports.STRIPE_KEY = process.env.STRIPE_KEY;
+exports.SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+exports.RESET_EXPIRY = process.env.RESET_EXPIRY || '1440m';

@@ -98,6 +98,7 @@ router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 		return Player.findById({_id: id})
 		.populate('team')
 		.populate('user')
+		.populate('team.games')
 		.exec(function(err, player) {
 		if (err) {
 			console.error(err)
