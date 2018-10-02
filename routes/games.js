@@ -98,4 +98,42 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	})
 })
 
+router.put('/:id/scores', jwtAuth, async (req, res, next) => {
+	const { id } = req.params;
+	const { home, away } = req.body;
+	let game = await Game.findByIdAndUpdate({_id: id});
+
+	if (req.user.admin) {
+		if (home > away) {
+			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
+			.then(() => {
+				return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}})
+			})
+			.then(() => {
+				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away, winner: game.home, loser: game.away}, {$new: true})
+			})
+			.then(updatedGame => res.status(201).json(updatedGame))
+		} else if (away > home) {
+			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"wins": 1}})
+			.then(() => {
+				return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}})
+			})
+			.then(() => {
+				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away, winner: game.away, loser: game.home}, {$new: true })
+			})
+			.then(updatedGame => res.status(201).json(updatedGame))
+		} else if (away == home) {
+			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"draws": 1}})
+			.then(() => {
+				return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"draws": 1}})
+			})
+			.then(() => {
+				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away}, { $new: true })
+			})
+		}
+	} else {
+		res.status(422).json({message: 'You are not authorized to update scores'})
+	}
+})
+
 module.exports = { router };

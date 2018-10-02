@@ -33,7 +33,7 @@ UserSchema.methods.serialize = function() {
 		firstName: this.firstName || '',
 		lastName: this.lastName || '',
 		admin: this.admin, 
-		fullname: this.fullName
+		fullName: this.fullName
 	};
 };
 
