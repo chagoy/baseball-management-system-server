@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const {Team} = require('../models/team');
 const {Season} = require('../models/season');
 const {Game} = require('../models/game');
+const {User} = require('../models/user');
 const moment = require('moment');
 const crypto = require('crypto');
 
@@ -13,6 +14,27 @@ const jsonParser = bodyParser.json();
 
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false, failWithError: true});
+
+router.get('/user', jwtAuth, async (req, res) => {
+	let user = await User.findById(req.user.id).populate('players')
+	let today = moment().startOf('day').toISOString();
+	let end = moment(today).add(6, 'months').toISOString();
+	let teams = user.players.map(player => player.team)
+	
+	return Game.find({
+		season: '5ba2bd394a76af4ad3ee4c3a',
+		$or: [{'home': { $in: teams }}, {'away': {$in: teams}}],
+		time: { 
+			$gte: today,
+			$lt: end
+		}
+	})
+	.sort({time: 1})
+	.populate('home')
+	.populate('away')
+	.then(games => res.status(201).json(games))
+	.catch(err => console.error(err.message))
+})
 
 router.get('/', (req, res, next) => {
 	let today = moment().startOf('day').toISOString();

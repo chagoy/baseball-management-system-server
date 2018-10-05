@@ -102,21 +102,15 @@ router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 		.exec(function(err, player) {
 		if (err) {
 			console.error(err)
-		} else {
-			return res.status(201).json(player)
 		}
+		return res.status(201).json(player)
 	}) 
 	} else {
 		return Player.findOne({_id: id, user: user})
 		.populate('team')
 		.populate('user')
-		.exec(function(err, player) {
-			if (err) {
-				console.error(err)
-			} else {
-				return res.status(201).json(player)
-			}
-		});
+		.then(player => res.status(201).json(player))
+		.catch(err => res.status(422).json(err))
 	}
 });
 
