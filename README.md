@@ -1,14 +1,18 @@
 # Baseball Management System
 
-<p>An app to manage baseball leagues. Those who register get access to registration, making a payment, and seeing their schedule. Admins can see reports of all registrations, who is paid and who isn't, and more.<p>
+<p>An app to manage baseball leagues. Those who register get access to registration, making a payment, and seeing their schedule. Admins can see reports of all registrations, who is paid and who isn't, make a schedule, and more.<p>
 
 ## Setup
 
-Getting started 
-		git clone
-		cd baseball-ms-server
-		npm install
-		npm start
+Clone the repo, `cd` into the newly created folder, run `npm install`, run `npm start`
+
+## Technology Used
+
+* Express
+* Stripe
+* Passport
+* Moment
+* Sendgrid
 
 ## Usage
 
