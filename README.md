@@ -1,10 +1,10 @@
 # Baseball Management System
 
-<p>An app to manage baseball leagues. Those who register get access to registration, making a payment, and seeing their schedule. Admins can see reports of all registrations, who is paid and who isn't, make a schedule, and more.</p>
+An app to manage baseball leagues. Those who register get access to registration, making a payment, and seeing their schedule. Admins can see reports of all registrations, who is paid and who isn't, make a schedule, and more.
 
-<p>Live version [here](https://baseball-management-system.herokuapp.com/)</p>
+Live version [here](https://baseball-management-system.herokuapp.com/)
 
-<p>Front-End repo [here](https://github.com/chagoy/baseball-management-system-client)</p>
+Front-End repo [here](https://github.com/chagoy/baseball-management-system-client)
 
 ## Setup
 
