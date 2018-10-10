@@ -41,9 +41,7 @@ app.use(
 //   next();
 // });
 
-app.use(cors({
-  origin: '*'
-}))
+app.use(cors())
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
