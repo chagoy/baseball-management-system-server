@@ -12,7 +12,7 @@ const GameSchema = mongoose.Schema({
 	location: { type: String, required: true },
 	winner: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	loser: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
-	draw: { type: Boolean },
+	draw: { type: Boolean, default: false },
 	homeScore: { type: Number },
 	awayScore: { type: Number }
 });

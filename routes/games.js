@@ -120,42 +120,74 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	})
 })
 
-router.put('/:id/scores', jwtAuth, async (req, res, next) => {
-	const { id } = req.params;
-	const { home, away } = req.body;
+router.put('/scores', jwtAuth, async (req, res, next) => {
+
+	const { id, homeId, awayId, homeScore, awayScore } = req.body;
+
 	let game = await Game.findByIdAndUpdate({_id: id});
 
-	if (req.user.admin) {
-		if (home > away) {
-			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
-			.then(() => {
-				return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}})
-			})
-			.then(() => {
-				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away, winner: game.home, loser: game.away}, {$new: true})
-			})
-			.then(updatedGame => res.status(201).json(updatedGame))
-		} else if (away > home) {
-			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"wins": 1}})
-			.then(() => {
-				return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}})
-			})
-			.then(() => {
-				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away, winner: game.away, loser: game.home}, {$new: true })
-			})
-			.then(updatedGame => res.status(201).json(updatedGame))
-		} else if (away == home) {
-			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"draws": 1}})
-			.then(() => {
-				return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"draws": 1}})
-			})
-			.then(() => {
-				return Game.findByIdAndUpdate({_id: id}, {homeScore: home, awayScore: away}, { $new: true })
-			})
-		}
-	} else {
-		res.status(422).json({message: 'You are not authorized to update scores'})
+	if (!req.user.admin) {
+		return res.status(422).json({message: 'You do not have permission to update game scores'})
 	}
+
+	// check if the game already has a delcared winner and loser
+	//this means we don't increment a teams wins or losses
+	if (game.winner && game.loser) {
+		if (homeScore > awayScore) {
+			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.home, loser: game.away}, {$new: true})
+		} else if (awayScore > homeScore) {
+			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.away, loser: game.home}, {$new: true})
+		} else return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
+	} else {
+		//this handles a fresh game result being added in
+		if (homeScore > awayScore) {
+			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
+			.then(() => Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}}))
+			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.home, loser: game.away}, {$new: true}))
+			.then(updatedGame => res.status(201).json(updatedGame))
+		} else if (awayScore > homeScore) {
+			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"wins": 1}})
+			.then(() => Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}}))
+			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.away, loser: game.home}, {$new: true }))
+			.then(updatedGame => res.status(201).json(updatedGame))
+		} else return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
+	}
+
+	return res.status(422).json({message: 'An error has occurred updating the scores'})
+
+
+			// return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
+			// .then(() => {
+			// 	return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}})
+			// })
+
+	// 		return !game.winner ? await Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
+	// 		.then(() => !game.loser ? await Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}}))
+	// 		.then(() => {
+	// 			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.home, loser: game.away}, {$new: true})
+	// 		})
+	// 		.then(updatedGame => res.status(201).json(updatedGame))
+	// 	} else if (awayScore > homeScore) {
+	// 		return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"wins": 1}})
+	// 		.then(() => {
+	// 			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}})
+	// 		})
+	// 		.then(() => {
+	// 			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.away, loser: game.home}, {$new: true })
+	// 		})
+	// 		.then(updatedGame => res.status(201).json(updatedGame))
+	// 	} else if (awayScore == homeScore && !game.draw) {
+	// 		return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"draws": 1}})
+	// 		.then(() => {
+	// 			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"draws": 1}})
+	// 		})
+	// 		.then(() => {
+	// 			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, draw: true}, { $new: true })
+	// 		})
+	// 	}
+	// } else {
+	// 	res.status(422).json({message: 'You are not authorized to update scores'})
+	// }
 })
 
 module.exports = { router };

@@ -84,6 +84,40 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 			})
 })
 
+router.get('/standings', async (req, res) => {
+	let standings = {};
+	let temporaryTeamsList = {};
+	let teams = await Team.find({});
+
+	//create the function to sort all times by their division
+	const groupBy = (list, sortBy) => {
+		return list.reduce((acc, val) => {
+			let key = val[sortBy];
+			acc[key] = acc[key] || [];
+			acc[key].push(val);
+			return acc;
+		}, {})
+	}
+
+	const byDivision = groupBy(teams, 'division');
+
+	const calculateGamesBack = (first, second) => {
+		return ((first.wins - first.losses) - (second.wins - second.losses)) / 2;
+	}
+	
+	//sort the teams in their divisions, then add a games back field and actualy generate that number
+	for (let field in byDivision) {
+		temporaryTeamsList[field] = byDivision[field];
+		temporaryTeamsList[field].sort((a, b) => b.wins - a.wins);
+
+		let firstPlace = temporaryTeamsList[field][0];
+		
+		standings[field] = temporaryTeamsList[field].map(team => ({...team.toObject(), gamesBack: calculateGamesBack(firstPlace, team)}));
+	}
+
+	res.status(201).json(standings)
+})
+
 router.get('/:team', jsonParser, (req, res, next) => {
 	const {team} = req.params;
 	
