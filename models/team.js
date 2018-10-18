@@ -10,7 +10,8 @@ const TeamSchema = mongoose.Schema({
 	season: { type: mongoose.Schema.Types.ObjectId, ref: 'Season' },
 	wins: { type: Number, default: 0 },
 	losses: { type: Number, default: 0 },
-	draws: { type: Number, default: 0 }
+	draws: { type: Number, default: 0 },
+	logo: { type: String }
 });
 
 TeamSchema.virtual('record').get(function() {

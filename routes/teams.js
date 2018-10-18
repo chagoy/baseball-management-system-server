@@ -11,7 +11,23 @@ const jsonParser = bodyParser.json();
 
 const passport = require('passport');
 
+const cloudinary = require('cloudinary');
+const cloudinaryStorage = require("multer-storage-cloudinary");
+const multer = require('multer')
+
 const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_NAME,
+	api_key: process.env.CLOUDINARY_KEY,
+	api_secret: process.env.CLOUDINARY_SECRET
+});
+const storage = cloudinaryStorage({
+	cloudinary: cloudinary,
+	folder: 'mpk',
+	allowedFormats: ['jpg', 'jpeg', 'png']
+});
+const upload = multer({storage: storage}).single('logo');
 
 router.get('/', jwtAuth, jsonParser, (req, res, next) => {
 	return Team.find({})
@@ -21,10 +37,10 @@ router.get('/', jwtAuth, jsonParser, (req, res, next) => {
 		.catch(err => console.error(err));
 })
 
-router.post('/', jwtAuth, jsonParser, (req, res, next) => {
-	console.log(req.body);
+router.post('/', jwtAuth, upload, (req, res, next) => {
 	const requiredFields = ['name', 'division'];
 	const missingField = requiredFields.find(field => !(field in req.body));
+	let logo = req.file.url;
 
 	if (missingField) {
 		return res.status(422).json({
@@ -65,7 +81,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 			})
 			.then(() => {
 				return Team.create({
-					name, division, season: '5ba2bd394a76af4ad3ee4c3a'
+					name, division, logo, season: '5ba2bd394a76af4ad3ee4c3a'
 				})
 			})
 			.then(_team => {

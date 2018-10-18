@@ -23,6 +23,7 @@ const { router: seasonsRouter } = require('./routes/seasons')
 const { router: gamesRouter } = require('./routes/games');
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {

@@ -8,17 +8,32 @@ const {Team} = require('../models/team');
 const {Season} = require('../models/season');
 const router = express.Router();
 const jsonParser = bodyParser.json();
-
+const cloudinary = require('cloudinary');
+const cloudinaryStorage = require("multer-storage-cloudinary");
 const passport = require('passport');
+const multer = require('multer')
 
 const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_NAME,
+	api_key: process.env.CLOUDINARY_KEY,
+	api_secret: process.env.CLOUDINARY_SECRET
+});
+const storage = cloudinaryStorage({
+	cloudinary: cloudinary,
+	folder: 'mpk',
+	allowedFormats: ['jpg', 'jpeg', 'png']
+});
+const upload = multer({storage: storage}).single('certificate');
 
 router.get('/', jwtAuth, jsonParser, (req, res, next) => {
 	return Player.find({}).then(data => res.json(data));
 })
 
-router.post('/', jwtAuth, jsonParser, (req, res, next) => {
-	const requiredFields = ['firstName', 'lastName', 'month', 'day', 'year', 'sport', 'division', 'waiver'];
+router.post('/', jwtAuth, upload, async (req, res, next) => {
+	const requiredFields = ['firstName', 'lastName', 'month', 'day', 'year', 'sport', 'division', 'waiver', 'jersey'];
+	let certificate = req.file.url;
 	const missingField = requiredFields.find(field => !(field in req.body));
 
 	if (missingField) {
@@ -30,7 +45,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		});
 	}
 
-	const stringFields = ['firstName', 'lastName', 'sport', 'division', 'waiver'];
+	const stringFields = ['firstName', 'lastName', 'sport', 'division', 'waiver', 'jersey'];
 	const nonStringField = stringFields.find(field => field in req.body && typeof req.body[field] !== 'string'
 		);
 
@@ -43,13 +58,13 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		});
 	}
 
-	let {firstName, lastName, sport, division, month, day, year, waiver, certificate} = req.body;
+	let {firstName, lastName, sport, division, month, day, year, waiver, jersey, team} = req.body;
 	let user = req.user.id;
 	firstName = firstName.trim();
 	lastName = lastName.trim();
 	let player = '';
 	let id = '';
-	console.log(certificate);
+	console.log(certificate)
 
 	return Player.find({firstName, lastName, month, day, year})
 		.count()
@@ -65,7 +80,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		})
 		.then(() => {
 			return Player.create({
-				firstName, lastName, sport, division, month, day, year, waiver, user, certificate, paid: true
+				firstName, lastName, sport, division, month, day, year, waiver, user, certificate, jersey, request: team, paid: true
 			})
 		})
 		.then(_player => {
@@ -117,7 +132,7 @@ router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 router.post('/:id/paid', jwtAuth, jsonParser, (req, res, next) => {
 	const {id} = req.params;
 	const {paid} = req.body;
-	console.log(paid);
+	// console.log(paid);
 	return Player.findByIdAndUpdate({_id: id}, {paid: paid}, {new: true}).populate('team').populate('user')
 		.then(player => {
 			return res.status(201).json(player);
@@ -139,8 +154,8 @@ router.put('/:id/division', jwtAuth, (req, res, next) => {
 router.put('/:id/team', jwtAuth, async (req, res, next) => {
 	const {id} = req.params;
 	const {team} = req.body;
-	console.log('the team is :' + team)
-	console.log('the id is :' + id)
+	// console.log('the team is :' + team)
+	// console.log('the id is :' + id)
 
 	return Team.findOneAndUpdate({_id: team}, { $push: {players: id}})
 				.then(() => { 
