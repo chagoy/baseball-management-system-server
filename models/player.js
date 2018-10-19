@@ -18,7 +18,8 @@ const PlayerSchema = mongoose.Schema({
  	certificate: { type: String },
  	request: { type: String },
  	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
- 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+ 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+ 	notes: { type: String }
  });
 
 PlayerSchema.virtual('fullName').get(function() {

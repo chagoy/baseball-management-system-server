@@ -19,7 +19,7 @@ const UserSchema = mongoose.Schema({
 	admin: { type: Boolean, required: true, default: false },
 	verified: { type: Boolean, default: false },
 	hash: { type: String, required: true},
-	resetToken: { type: String, default: null }
+	resetToken: { type: String, default: null },
 });
 
 UserSchema.virtual('fullName').get(function() {

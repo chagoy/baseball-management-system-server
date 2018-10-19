@@ -54,8 +54,14 @@ app.use('/api/seasons/', seasonsRouter);
 app.use('/api/games/', gamesRouter);
 app.use('/auth/', authRouter);
 
-app.post('/api/stripe', async (req, res) => {
-  // console.log(req.body);
+//check if user.players > 0
+//if true, price should be -15
+//if not true price = price
+
+const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
+
+app.post('/api/stripe', jwtAuth, async (req, res) => {
+  console.log(req.user);
   try {
     let {status} = await stripe.charges.create({
         amount: 2000,
