@@ -153,10 +153,10 @@ router.put('/:id/division', jwtAuth, (req, res, next) => {
 
 router.put('/:id/team', jwtAuth, async (req, res, next) => {
 	const {id} = req.params;
-	const {team} = req.body;
+	const {team, player} = req.body;
 	// console.log('the team is :' + team)
 	// console.log('the id is :' + id)
-
+	console.log(player, team)
 	return Team.findOneAndUpdate({_id: team}, { $push: {players: id}})
 				.then(() => { 
 					return Player.findOneAndUpdate({_id : id}, {$set: {team} }, {new: true}).populate('team').populate('user')
