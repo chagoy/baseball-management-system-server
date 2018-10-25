@@ -37,6 +37,17 @@ router.get('/user', jwtAuth, async (req, res) => {
 })
 
 router.get('/', (req, res, next) => {
+	return Game.find({
+		season: '5ba2bd394a76af4ad3ee4c3a'
+	})
+	.sort({time: 1})
+	.populate('home')
+	.populate('away')
+	.then(games => res.status(201).json(games))
+	.catch(err => console.error(err.message))
+})
+
+router.get('/upcoming', (req, res, next) => {
 	let today = moment().startOf('day').toISOString();
 	let end = moment(today).add(6, 'months').toISOString();
 
@@ -134,23 +145,23 @@ router.put('/scores', jwtAuth, async (req, res, next) => {
 	//this means we don't increment a teams wins or losses
 	if (game.winner && game.loser) {
 		if (homeScore > awayScore) {
-			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.home, loser: game.away}, {$new: true})
+			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.home, loser: game.away}, {$new: true})
 		} else if (awayScore > homeScore) {
-			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.away, loser: game.home}, {$new: true})
+			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.away, loser: game.home}, {$new: true})
 		} else return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
 	} else {
 		//this handles a fresh game result being added in
 		if (homeScore > awayScore) {
 			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
 			.then(() => Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}}))
-			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.home, loser: game.away}, {$new: true}))
+			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.home, loser: game.away}, {$new: true}))
 			.then(updatedGame => res.status(201).json(updatedGame))
 		} else if (awayScore > homeScore) {
 			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"wins": 1}})
 			.then(() => Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}}))
-			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, winner: game.away, loser: game.home}, {$new: true }))
+			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.away, loser: game.home}, {$new: true }))
 			.then(updatedGame => res.status(201).json(updatedGame))
-		} else return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
+		} else return Game.findByIdAndUpdate({_id: id}, {completed: true, homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
 	}
 
 	return res.status(422).json({message: 'An error has occurred updating the scores'})

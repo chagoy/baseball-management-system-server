@@ -14,7 +14,8 @@ const GameSchema = mongoose.Schema({
 	loser: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	draw: { type: Boolean, default: false },
 	homeScore: { type: Number },
-	awayScore: { type: Number }
+	awayScore: { type: Number },
+	completed: { type: Boolean, default: false }
 });
 
 GameSchema.virtual('date').get(function() {
