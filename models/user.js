@@ -49,6 +49,7 @@ UserSchema.set('toObject', {
 	transform: function(doc, ret) {
 		delete ret._id;
 		delete ret.password;
+		delete ret._v;
 	}
 }, {virtuals: true});
 
@@ -56,6 +57,7 @@ UserSchema.set('toJson', {
 	transform: function(doc, ret) {
 		delete ret._id;
 		delete ret.password;
+		delete ret._v;
 	}
 }, {virtuals: true});
 

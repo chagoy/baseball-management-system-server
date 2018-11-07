@@ -38,7 +38,8 @@ router.get('/user', jwtAuth, async (req, res) => {
 
 router.get('/', (req, res, next) => {
 	return Game.find({
-		season: '5ba2bd394a76af4ad3ee4c3a'
+		season: '5ba2bd394a76af4ad3ee4c3a',
+		completed: true
 	})
 	.sort({time: 1})
 	.populate('home')

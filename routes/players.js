@@ -27,6 +27,46 @@ const storage = cloudinaryStorage({
 });
 const upload = multer({storage: storage}).single('certificate');
 
+const Json2csvParser = require('json2csv').Parser;
+
+router.get('/csv/:id', async (req, res, next) => {
+	
+	const {id} = req.params;
+	let user = await User.findOne({_id: id});
+	
+	if (!user.admin) {
+		console.log(user.admin)
+		res.status(422).json('You are not authorized to see this information')
+	}
+	let players = await Player.find({}).populate('user').populate('team');
+	const fields = [ 'sport',
+	'paid',
+	'fullName',
+	'playingAge',
+	'dob',
+  'waiver',
+  'certificate',
+  'jersey',
+  'request',
+  'team.name',
+  'team.division',
+  'user.fullName',
+  'user.phone',
+  'user.email',
+  'user.address',
+  'user.city',
+  'user.zipcode',
+  'user.texting',
+  'notes' ]
+
+	const json2csv = new Json2csvParser({fields})
+	const csv = json2csv.parse(players)
+	console.log('supposed to be')
+
+	res.attachment('league.csv');
+  res.status(200).send(csv);
+})
+
 router.get('/', jwtAuth, jsonParser, (req, res, next) => {
 	return Player.find({}).then(data => res.json(data));
 })
@@ -150,6 +190,17 @@ router.put('/:id/division', jwtAuth, (req, res, next) => {
 		})
 		.catch(err => console.error(err));
 });
+
+router.put('/:id/notes', jwtAuth, (req, res, next) => {
+	const {id} = req.params;
+	const {notes} = req.body;
+
+	return Player.findByIdAndUpdate({_id: id}, {$set: {notes}}, {new: true}).populate('user')
+			.then(player=> {
+				return res.status(201).json(player);
+			})
+			.catch(err => console.error(err));
+})
 
 router.put('/:id/team', jwtAuth, async (req, res, next) => {
 	const {id} = req.params;
