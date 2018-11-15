@@ -21,6 +21,10 @@ TeamSchema.virtual('record').get(function() {
 	return `${this.wins}-${this.losses}`;
 });
 
+TeamSchema.virtual('nameAndDivision').get(function() {
+	return `${this.name} - ${this.division[0].toUpperCase()}`;
+})
+
 TeamSchema.set('toObject', {virtuals: true})
 
 const Team = mongoose.model('Team', TeamSchema);

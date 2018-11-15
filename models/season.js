@@ -8,8 +8,9 @@ const SeasonSchema = mongoose.Schema({
 	year: { type: Number, required: true },
 	season: { type: String, required: true },
 	teams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Team' }],
-	players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player'}],
-	games: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game'}]
+	players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
+	games: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }],
+	posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
 });
 
 SeasonSchema.set('toObject', { virtuals: true });

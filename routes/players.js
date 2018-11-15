@@ -68,7 +68,7 @@ router.get('/csv/:id', async (req, res, next) => {
 })
 
 router.get('/', jwtAuth, jsonParser, (req, res, next) => {
-	return Player.find({}).then(data => res.json(data));
+	return Player.find({}).populate('user').populate('team').then(data => res.json(data));
 })
 
 router.post('/', jwtAuth, upload, async (req, res, next) => {

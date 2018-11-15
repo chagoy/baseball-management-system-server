@@ -21,6 +21,7 @@ const { router: playersRouter } = require('./routes/players');
 const { router: teamsRouter } = require('./routes/teams');
 const { router: seasonsRouter } = require('./routes/seasons')
 const { router: gamesRouter } = require('./routes/games');
+const { router: postsRouter } = require('./routes/posts');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,6 +53,7 @@ app.use('/api/players/', playersRouter);
 app.use('/api/teams/', teamsRouter);
 app.use('/api/seasons/', seasonsRouter);
 app.use('/api/games/', gamesRouter);
+app.use('/api/posts', postsRouter);
 app.use('/auth/', authRouter);
 
 //check if user.players > 0
