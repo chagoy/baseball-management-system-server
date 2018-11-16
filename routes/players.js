@@ -152,8 +152,15 @@ router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 	if (req.user.admin) {
 		return Player.findById({_id: id})
 		.populate('team')
-		.populate('user')
-		.populate('team.games')
+		.populate({
+			path: 'user',
+			populate: {
+				path: 'players'
+			}
+		})
+		// .populate('user')
+		// .populate('user.players')
+		// .populate('team.games')
 		.exec(function(err, player) {
 		if (err) {
 			console.error(err)
@@ -163,7 +170,12 @@ router.get('/:id', jwtAuth, jsonParser, (req, res, next) => {
 	} else {
 		return Player.findOne({_id: id, user: user})
 		.populate('team')
-		.populate('user')
+		.populate({
+			path: 'user',
+			populate: {
+				path: 'players'
+			}
+		})
 		.then(player => res.status(201).json(player))
 		.catch(err => res.status(422).json(err))
 	}

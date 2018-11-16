@@ -9,8 +9,8 @@ const UserSchema = mongoose.Schema({
 	password: { type: String, required: true },
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
-	email: { type: String, required: true },
-	phone: { type: String, required: true },
+	email: { type: String, required: true, unique: true },
+	phone: { type: String, required: true, unique: true },
 	texting: { type: Boolean, required: true },
 	address: { type: String, required: true },
 	city: { type: String,required: true },
@@ -20,11 +20,23 @@ const UserSchema = mongoose.Schema({
 	verified: { type: Boolean, default: false },
 	hash: { type: String, required: true},
 	resetToken: { type: String, default: null },
+	price: { type: Number, required: true, default: 100}
 });
 
 UserSchema.virtual('fullName').get(function() {
 	return `${this.firstName} ${this.lastName}`;
 });
+
+UserSchema.virtual('finalPrice').get(function() {
+	if (this.players.length > 1) {
+		return this.price - 15;
+	}
+	return this.price;
+})
+
+UserSchema.virtual('formattedPhone').get(function() {
+	return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+})
 
 UserSchema.methods.serialize = function() {
 	return {
@@ -33,7 +45,8 @@ UserSchema.methods.serialize = function() {
 		firstName: this.firstName || '',
 		lastName: this.lastName || '',
 		admin: this.admin, 
-		fullName: this.fullName
+		fullName: this.fullName,
+		price: this.finalPrice
 	};
 };
 
