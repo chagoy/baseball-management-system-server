@@ -28,7 +28,7 @@ UserSchema.virtual('fullName').get(function() {
 });
 
 UserSchema.virtual('finalPrice').get(function() {
-	if (this.players.length > 1) {
+	if (this.players.length > 0) {
 		return this.price - 15;
 	}
 	return this.price;
