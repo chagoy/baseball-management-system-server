@@ -14,12 +14,14 @@ const PlayerSchema = mongoose.Schema({
  	paid: { type: Boolean, default: false },
  	division: { type: String, required: true },
  	waiver: { type: String, required: true },
+ 	parentContract: { type: String, required: true},
  	jersey: { type: String },
  	certificate: { type: String },
  	request: { type: String },
  	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
  	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
- 	notes: { type: String }
+ 	notes: { type: String },
+ 	fundraiser: { type: Boolean, default: false },
  });
 
 PlayerSchema.virtual('fullName').get(function() {

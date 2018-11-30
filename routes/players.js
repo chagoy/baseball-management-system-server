@@ -98,7 +98,7 @@ router.post('/', jwtAuth, upload, async (req, res, next) => {
 		});
 	}
 
-	let {firstName, lastName, sport, division, month, day, year, waiver, jersey, team} = req.body;
+	let { firstName, lastName, sport, division, month, day, year, waiver, jersey, team, parentContract, request, fundraiser } = req.body;
 	let user = req.user.id;
 	firstName = firstName.trim();
 	lastName = lastName.trim();
@@ -120,7 +120,7 @@ router.post('/', jwtAuth, upload, async (req, res, next) => {
 		})
 		.then(() => {
 			return Player.create({
-				firstName, lastName, sport, division, month, day, year, waiver, user, certificate, jersey, request: team, paid: true
+				firstName, lastName, sport, division, month, day, year, waiver, parentContract, user, certificate, jersey, request, fundraiser, paid: true
 			})
 		})
 		.then(_player => {
