@@ -46,7 +46,8 @@ UserSchema.methods.serialize = function() {
 		lastName: this.lastName || '',
 		admin: this.admin, 
 		fullName: this.fullName,
-		price: this.finalPrice
+		price: this.finalPrice,
+		email: this.email
 	};
 };
 

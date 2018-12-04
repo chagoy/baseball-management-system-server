@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const {Team} = require('../models/team');
 const {Player} = require('../models/player');
 const {Season} = require('../models/season');
+require('../util/mksort');
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
@@ -124,7 +125,8 @@ router.get('/standings', async (req, res) => {
 	//sort the teams in their divisions, then add a games back field and actualy generate that number
 	for (let field in byDivision) {
 		temporaryTeamsList[field] = byDivision[field];
-		temporaryTeamsList[field].sort((a, b) => b.wins - a.wins);
+		// temporaryTeamsList[field].sort((a, b) => b.wins - a.wins);
+		mksort.sort(temporaryTeamsList[field], {losses: 'asc', wins: 'desc'})
 
 		let firstPlace = temporaryTeamsList[field][0];
 		

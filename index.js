@@ -63,13 +63,17 @@ app.use('/auth/', authRouter);
 const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
 
 app.post('/api/stripe', jwtAuth, async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
+  // console.log(req.body)
   try {
+    const token = req.body.token;
+    console.log(token.id)
     let {status} = await stripe.charges.create({
-        amount: 2000,
+        amount: req.user.price * 100,
         currency: 'usd',
-        description: 'an example charge',
-        source: req.body.token.id
+        description: 'mpk baseball registration',
+        statement_descriptor: 'statement',
+        source: token.id
     });
     console.log(status);
     res.json({status});
