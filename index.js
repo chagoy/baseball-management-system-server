@@ -57,7 +57,7 @@ app.use('/api/teams/', teamsRouter);
 app.use('/api/seasons/', seasonsRouter);
 app.use('/api/games/', gamesRouter);
 app.use('/api/posts', postsRouter);
-app.use('/auth/', authRouter);
+app.use('/api/auth/', authRouter);
 
 //check if user.players > 0
 //if true, price should be -15
