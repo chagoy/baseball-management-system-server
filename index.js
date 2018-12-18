@@ -4,6 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
+const {User} = require('./models/user');
+const path = require('path');
+
 require ('dotenv').config();
 
 const stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -63,23 +66,35 @@ app.use('/auth/', authRouter);
 const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
 
 app.post('/api/stripe', jwtAuth, async (req, res) => {
-  // console.log(req.user);
-  // console.log(req.body)
-  try {
-    const token = req.body.token;
-    console.log(token.id)
-    let {status} = await stripe.charges.create({
-        amount: req.user.price * 100,
-        currency: 'usd',
-        description: 'mpk baseball registration',
-        statement_descriptor: 'statement',
-        source: token.id
-    });
-    console.log(status);
-    res.json({status});
-  } catch (err) {
-    res.status(500).json(err).end();
+  
+  if (!req.user.admin) {
+    try {
+      const token = req.body.token;
+      console.log(token.id)
+      let {status} = await stripe.charges.create({
+          // amount: req.user.price * 100,
+          amount: price,
+          currency: 'usd',
+          description: 'mpk baseball registration',
+          statement_descriptor: 'spring 2019',
+          source: token.id
+      });
+
+      res.json({status});
+    } catch (err) {
+      res.status(500).json(err).end();
+    }
+  } else {
+    console.log('hello admin')
+    res.status(201).json({message: 'you are admin, no need to pay'})
   }
+});
+
+// Serve any static files built by React
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 function runServer(port = PORT) {
@@ -99,3 +114,4 @@ if (require.main === module) {
 }
 
 module.exports = { app };
+

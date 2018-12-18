@@ -120,10 +120,13 @@ router.post('/', jsonParser, (req, res, next) => {
 		.then(user => {
 			const msg = {
 			  to: user.email,
-			  from: 'blah@mpk.com',
+			  from: 'mpkbaseball15@gmail.com',
 			  subject: 'Thank you for registering!',
 			  text: 'and easy to do anywhere, even with Node.js',
-			  html: `<strong>and easy to do anywhere, even with Node.js</strong> click <a href="/${user.verificationCode}">here</a> to verify your account`,
+			  html: `<h3>Welcome to the MPK Family</h3>
+			  <p>We look forward to your participation with MPK Baseball & Softball. But first, we need you to <a href="/${user.verificationCode}">verify your account</a>. Click the link and you'll be on your way to playing in the 2019 Season</p>
+			  <p>-MPK Board</p>
+			  <p>404-374-5014</p>`,
 			};
 			sgMail.send(msg);
 			return res.status(201).json(user.serialize());
