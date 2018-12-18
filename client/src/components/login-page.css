@@ -1,0 +1,103 @@
+.control {
+	/*padding: 18px 0;*/
+}
+
+.loginBackground {
+	background: url('https://s3-us-west-2.amazonaws.com/am-i-going-over/neonbrand-423329-unsplash.jpg');
+	background-size: cover;
+	background-position: center;
+	min-height: 100vh;
+}
+.login-form-container {
+	padding-top: 10%;
+}
+.login-form {
+	background-color: rgba(255, 255, 255, 0.7);
+	width: 80%;
+	text-align: center;
+	margin: 0 auto;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+	padding: 26px 8px;
+}
+
+.form-error {
+	font-size: 0.8rem;
+	color: #D90000;
+}
+
+.errorClass {
+	border-radius: 1%;
+	border: none;
+	padding: 10px;
+	width: 46%;
+	font-size: 1.1rem;
+	text-align: center;
+	background-color: transparent !important;
+	border: 2px solid red;
+}
+
+.login-input {
+	border-radius: 1%;
+	border: none;
+	padding: 10px;
+	width: 46%;
+	font-size: 1.1rem;
+	text-align: center;
+	border: 2px solid rgba(0, 0, 0, 0.7);
+	background-color: transparent !important;
+	/*-webkit-box-shadow: 0 0 0px 1000px white inset;
+	box-shadow: 0 0 0px 1000px white inset;*/
+}
+
+.login-input:focus {
+	color: rgba(0, 0, 0, 0.6);
+	background-color: transparent !important;
+}
+
+.login-button {
+	padding: 12px 30px;
+	border: none;
+	color: white;
+	background-color: #05007B;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	letter-spacing: 0.8px;
+	filter: drop-shadow(0px 0px 1.3px rgba(255, 255, 255, 0.9));
+}
+
+.login-button a {
+	color: white;
+}
+
+button:hover, .login-button a:hover {
+	color: #dcdcdc;
+}
+
+.control h3 {
+	font-size: 1.5rem;
+}
+
+.message > a { 
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+	color: #D90000;
+}
+
+.message > a:hover {
+	text-decoration: underline;
+	text-decoration-color: #05007B;
+}
+
+@media (max-width: 767px) {
+	.login-form {
+		width: 100%;
+	}
+
+	.login-input {
+		width: 70%;
+	}
+
+	.errorClass {
+		width: 70%;
+	}
+}

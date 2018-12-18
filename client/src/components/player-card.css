@@ -1,0 +1,40 @@
+.player-card {
+	padding: 10px 6px;
+	/*border: 3px solid white;*/
+	background-color: rgba(255, 255, 255, 0.9);
+	width: 75%;
+	margin-bottom: 8px;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.card-header {
+	font-size: 1.9rem;
+	margin: 0;
+	letter-spacing: 0.9px;
+	text-transform: uppercase;
+}
+
+.card-body {
+	padding: 4px;
+	margin: 0;
+}
+
+.card-muted {
+	margin: 0;
+	padding: 0;
+	font-size: 0.8rem;
+	color: #929eb2;
+}
+
+.edit-text {
+	color: #929eb2;
+	float: right;
+	margin: 0;
+	padding: 0;
+}
+
+@media (max-width: 767px) {
+	.player-card {
+		width: 90%;
+	}
+}

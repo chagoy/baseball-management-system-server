@@ -1,0 +1,72 @@
+.standings-container {
+	text-align: center;
+}
+
+table {
+	/*background-color: red;*/
+	margin: 0 auto;
+	width: 60%;
+	border: none;
+	border-spacing: 0;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+}
+
+@media(max-width: 669px) {
+	table {
+		width: 100%;
+	}
+}
+
+td[colspan="5"] {
+	text-align: center;
+	background-color: #5172CC;
+	color: white;
+	border-bottom: none;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+	letter-spacing: 1.3px
+}
+
+.header-row {
+	background-color: #143796;
+	color: white;
+	font-size: 0.9em;
+	padding: 1rem;
+	text-align: left;
+	text-transform: uppercase;
+	letter-spacing: 1.3px
+}
+
+.header-row th {
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+}
+
+.team-row {
+	text-align: right;
+}
+
+td {
+	border-bottom: 1.4px solid #d2d2d2;
+	padding: 8px 8px;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+	font-size: 0.9em;
+}
+
+.team-name {
+	text-align: left;
+	background-color: #f7f7f7;
+	display: flex;
+}
+
+th {
+	padding: 5px 10px;
+}
+
+.standings-logo {
+	max-height: 30px;
+	padding-right: 4px;
+}
+
+.name-span {
+	display: flex;
+	align-items: center;
+}

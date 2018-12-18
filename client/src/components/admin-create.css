@@ -1,0 +1,62 @@
+.create {
+	background-color: rgba(255, 255, 255, 0.7);
+	width: 60%;
+	text-align: center;
+	margin: 0 auto;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+	padding: 26px 8px;
+	margin-top: 35px;
+}
+
+.team-input {
+	border-radius: 1%;
+	border: none;
+	padding: 10px;
+	width: 46%;
+	font-size: 1.1rem;
+	text-align: center;
+	border: 2px solid rgba(0, 0, 0, 0.7);
+	background-color: transparent !important;
+}
+
+.team-input:focus {
+	color: rgba(0, 0, 0, 0.6);
+	background-color: transparent !important;
+}
+
+.team-button {
+	padding: 12px 30px;
+	border: none;
+	color: white;
+	background-color: #05007B;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	letter-spacing: 0.8px;
+	filter: drop-shadow(0px 0px 1.3px rgba(255, 255, 255, 0.9));
+	margin-top: 10px;
+}
+
+.team-select {
+	border-radius: 1%;
+	border: none;
+	padding: 10px;
+	width: 46%;
+	font-size: 1.1rem;
+	text-align: center;
+	border: 2px solid rgba(0, 0, 0, 0.7);
+	background-color: transparent !important;
+}
+
+.team-form {
+	margin-bottom: 25px;
+}
+
+@media (max-width: 767px) {
+	.create {
+		width: 100%;
+	}
+	.team-input {
+		width: 70%;
+	}
+}

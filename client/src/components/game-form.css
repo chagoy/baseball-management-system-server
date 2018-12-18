@@ -1,0 +1,26 @@
+.game-form {
+	width: 100%;
+	flex-shrink: 0;
+}
+
+/*.react-datepicker-wrapper {
+	border: 1px solid black;
+	width: 50%;
+	height: 80px;
+}*/
+
+ul.react-datepicker__time-list {
+	padding: 0;
+}
+
+.react-datepicker__input-container {
+	width: 100%;
+}
+
+.date-input {
+	width: 100%
+}
+
+.react-datepicker-wrapper {
+	width: 100%;
+}

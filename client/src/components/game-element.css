@@ -1,0 +1,132 @@
+.games-list {
+	list-style: none;
+	list-style-position: inside;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.game-element {
+	/*border: 1px solid black;*/
+	margin-bottom: 7px;
+	padding: 5px 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.game-heading {
+	display: flex;
+	justify-content: space-between;
+}
+
+.date-time {
+	float: left;
+	color: #929eb2;
+	font-size: 0.9rem;
+}
+
+.location {
+	float: right;
+	color: #929eb2;
+	font-size: 0.9rem;
+}
+
+.team-line {
+	/*margin: 0 0;*/
+	text-transform: uppercase; 
+	margin: 0 3px;
+	font-size: 1.2rem;
+}
+
+.division {
+	font-size: 0.8rem;
+	color: #929eb2;
+	margin-left: 3px;
+}
+
+.record {
+	margin: 0 0;
+	font-size: 0.8rem;
+	vertical-align: middle;
+	color: #D90000;
+}
+
+@media (max-width: 696px) {
+	.games-list {
+		max-width: 80%;
+	}
+}
+
+@media (max-width: 517px) {
+	.games-list {
+		width: 100%;
+	}
+	.game-element {
+		width: 100%;
+	}
+}
+.Modal { backgrond-color: red; }
+
+.edit-scores {
+	border: none;
+	background: none;
+	font-size: 0.8rem;
+	color: #929eb2;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+}
+
+.edit-scores:hover {
+	color: #373B3E;
+}
+
+.game-wrapper {
+	min-width: 100%;
+	padding: 12px 0;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+	margin-bottom: 8px;
+}
+
+.date-wrapper {
+	width: 100%;
+	align-items: middle;
+}
+
+.date-wrapper p {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.logo-wrapper {
+	width: 100%;
+	text-align: center;
+}
+
+.logo-element {
+	max-height: 60px;
+	margin: 0 auto;
+}
+
+/*needs to be changed depending on viewport*/
+.vs-wrapper {
+	font-size: 0.9rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100px;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+}
+
+.remove {
+	margin : 0 0;
+	vertical-align: middle;
+}
+
+.vs {
+	margin: 0 0;
+}
+
+.score {
+	font-size: 1.3rem;
+	color: #868890;
+}

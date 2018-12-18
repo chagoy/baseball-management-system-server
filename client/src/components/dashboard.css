@@ -1,0 +1,50 @@
+.dashboard {
+	/*background: url('https://s3-us-west-2.amazonaws.com/am-i-going-over/neonbrand-423338-unsplash.jpg');
+	background-size: cover;
+	background-position: center;
+	min-height: 100vh;*/
+	background-color: #FDFFFC;
+}
+
+.dashboard-screen {
+	width: 100%;
+	/*background-color: rgba(255, 255, 255, 0.7);*/
+	margin: 0 auto;
+	/*padding: 20px 10px;*/
+	/*margin-top: 15px;*/
+	border-sizing: border-box;
+}
+
+.header-text {
+	font-size: 1.5rem;
+	/*color: #FDFFFC;*/
+}
+
+.admin-links {
+	padding: 8px 8px;
+}
+
+/*fixing the horizontal scroll*/
+.flex-wrap {
+	padding: 0 0;
+}
+/*fixing the horizontal scroll*/
+.admin-links a {
+
+	color: #0D1321;
+	margin-right: 7px;
+	font-size: 0.8em;
+}
+
+.admin-links a:hover {
+	color: #05007B;
+}
+
+.games-column {
+}
+
+@media (max-width: 767px) {
+	.dashboard-screen {
+		width: 100%;
+	}
+}

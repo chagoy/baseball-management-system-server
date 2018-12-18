@@ -1,0 +1,36 @@
+.schedule {
+	/*background: url('https://s3-us-west-2.amazonaws.com/am-i-going-over/neonbrand-423338-unsplash.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;*/
+	min-height: 100vh;
+	background-color: #FDFFFC;
+}
+
+.schedule-list {
+	list-style: none;
+	padding: 0;
+	width: 50%;
+	margin: 0 auto;
+}
+
+.schedule-title {
+    color: #0D1321;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 13px;
+}
+
+/*.schedule {
+	margin: 0 auto;
+	background: url('https://s3-us-west-2.amazonaws.com/am-i-going-over/neonbrand-423338-unsplash.jpg');
+	background-size: cover;
+	background-position: center;
+	min-height: 100vh;
+}*/
+
+@media (max-width: 696px) {
+	.schedule-list {
+		width: 96%;
+	}
+}

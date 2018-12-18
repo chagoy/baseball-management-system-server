@@ -1,0 +1,133 @@
+.player-form {
+	background-color: rgba(255, 255, 255, 0.7);
+	width: 80%;
+	text-align: center;
+	margin: 0 auto;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+	padding: 26px 8px;
+	margin-top: 35px;
+}
+
+.player-input {
+	border-radius: 1%;
+	border: none;
+	padding: 10px;
+	width: 46%;
+	font-size: 1.1rem;
+	text-align: center;
+	border: 2px solid rgba(0, 0, 0, 0.7);
+	background-color: transparent !important;
+}
+
+.player-input:focus {
+	color: rgba(0, 0, 0, 0.6);
+	background-color: transparent !important;
+}
+
+.player-button {
+	padding: 12px 30px;
+	border: none;
+	color: white;
+	background-color: #05007B;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	letter-spacing: 0.8px;
+	filter: drop-shadow(0px 0px 1.3px rgba(255, 255, 255, 0.9));
+}
+
+.player-select {
+	border-radius: 1%;
+	border: none;
+	padding: 10px;
+	width: 46%;
+	font-size: 1.1rem;
+	text-align: center;
+	border: 2px solid rgba(0, 0, 0, 0.7);
+	background-color: transparent !important;
+}
+
+.label-control {
+	display: block;
+}
+
+.checkout {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.contract {
+	padding: 15px 15px;
+}
+
+.form-head {
+	font-size: 1.5rem;
+}
+
+.refund, .fundraising, .contract {
+	width: 76%;
+	margin: 0 auto;
+}
+
+.fundraiser-text {
+	font-family: 'Arial';
+	font-size: 0.93em;
+}
+.refund > ul > li {
+	text-align: left;
+	/*background-color: red;*/
+	padding: 4px 4px;
+}
+
+.contract > ul > li {
+	text-align: left;
+	padding: 4px 4px;
+	font-family: 'Arial';
+	font-size: 0.93em;
+}
+
+.refund > ul {
+	list-style: none;
+	/*text-align: left;*/
+	margin: 0 auto;
+}
+
+.contract > ul {
+	list-style: none;
+	margin: 0 auto;
+}
+
+.checkbox {
+	display: flex;
+	justify-content: center;
+}
+
+.checkbox > input[type='checkbox'] {
+
+}
+
+.checkbox-label {
+	padding-left: 5px;
+	color: #393E41;
+	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
+}
+
+.checkbox > input > [type="checkbox"]:checked, [type="checkbox"]:not(:checked) {
+	width: 1.25em;
+	height: 1.25em;
+	border: 2px solid #ececec;
+}
+
+@media (max-width: 767px) {
+	.player-form {
+		width: 100%;
+	}
+
+	.checkout {
+		width: 95%;
+	}
+
+	.refund, .fundraising, .contract {
+	width: 90%;
+	}
+}
