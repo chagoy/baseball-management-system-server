@@ -91,11 +91,11 @@ app.post('/api/stripe', jwtAuth, async (req, res) => {
 });
 
 // Serve any static files built by React
-app.use(express.static(path.join(__dirname, "client/build")));
+// app.use(express.static(path.join(__dirname, "client/build")));
 
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
+// app.get("/", function(req, res) {
+//   res.sendFile(path.join(__dirname, "client/build", "index.html"));
+// });
 
 function runServer(port = PORT) {
   const server = app
