@@ -121,7 +121,7 @@ export const resetPassword = (email) => (dispatch, getState) => {
 }
 
 export const checkValidToken = (hash) => (dispatch, getState) => {
-	console.log('supposed to check')
+	// console.log('supposed to check')
 	return fetch(`${API_BASE_URL}/auth/reset/${hash}`, {
 		method: 'GET',
 		headers: {
@@ -135,7 +135,7 @@ export const checkValidToken = (hash) => (dispatch, getState) => {
 }
 
 export const saveNewPassword = (data) => (dispatch, getState) => {
-	console.log(data)
+	// console.log(data)
 	return fetch(`${API_BASE_URL}/auth/reset/${data.hash}`, {
 		method: 'POST',
 		headers: {
