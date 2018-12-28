@@ -61,7 +61,7 @@ export const logout = user => dispatch => {
 export const login = (username, password, email, firstName, lastName) => dispatch => {
 	dispatch(authRequest());
 	return (
-		fetch(`${API_BASE_URL}/api/auth/login`, {
+		fetch(`${API_BASE_URL}/api/api/auth/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ export const login = (username, password, email, firstName, lastName) => dispatc
 export const refreshAuthToken = () => (dispatch, getState) => {
 	dispatch(authRequest());
 	const authToken = getState().auth.authToken;
-	return fetch(`${API_BASE_URL}/auth/refresh`, {
+	return fetch(`${API_BASE_URL}/api/auth/refresh`, {
 		method: 'POST',
 		headers: {
 			Authorization: `Bearer ${authToken}`
@@ -107,7 +107,7 @@ export const refreshAuthToken = () => (dispatch, getState) => {
 
 export const resetPassword = (email) => (dispatch, getState) => {
 	// dispatch(resetPasswordRequest());
-	return fetch(`${API_BASE_URL}/auth/reset`, {
+	return fetch(`${API_BASE_URL}/api/auth/reset`, {
 		method: 'POST',
 		headers: {
 				'Content-Type': 'application/json'
@@ -122,7 +122,7 @@ export const resetPassword = (email) => (dispatch, getState) => {
 
 export const checkValidToken = (hash) => (dispatch, getState) => {
 	// console.log('supposed to check')
-	return fetch(`${API_BASE_URL}/auth/reset/${hash}`, {
+	return fetch(`${API_BASE_URL}/api/auth/reset/${hash}`, {
 		method: 'GET',
 		headers: {
 			'content-type': 'application/json'
@@ -136,7 +136,7 @@ export const checkValidToken = (hash) => (dispatch, getState) => {
 
 export const saveNewPassword = (data) => (dispatch, getState) => {
 	// console.log(data)
-	return fetch(`${API_BASE_URL}/auth/reset/${data.hash}`, {
+	return fetch(`${API_BASE_URL}/api/auth/reset/${data.hash}`, {
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json'

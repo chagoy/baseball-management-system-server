@@ -29,7 +29,7 @@ export const fetchUsersPlayers = () => (dispatch, getState) => {
 
 export const fetchProtectedData = () => (dispatch, getState) => {
 	const authToken = getState().auth.authToken;
-	return fetch(`${API_BASE_URL}/auth/protected`, {
+	return fetch(`${API_BASE_URL}/api/auth/protected`, {
 		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${authToken}`
