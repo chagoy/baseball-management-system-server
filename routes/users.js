@@ -20,6 +20,7 @@ router.post('/', jsonParser, (req, res, next) => {
 	console.log(req.body);
 	const requiredFields = ['username', 'password', 'email', 'firstName', 'lastName'];
 	const missingField = requiredFields.find(field => !(field in req.body));
+	const shouldbeAdmin = req.body.username === process.env.ADMIN ? true : false;
 
 	if (missingField) {
 		return res.status(422).json({
@@ -114,7 +115,8 @@ router.post('/', jsonParser, (req, res, next) => {
 				address,
 				city,
 				zipcode,
-				hash: verificationCode
+				hash: verificationCode,
+				admin: shouldbeAdmin
 			});
 		})
 		.then(user => {
