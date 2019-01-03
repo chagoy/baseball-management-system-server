@@ -88,7 +88,7 @@ router.post('/', jwtAuth, upload, (req, res, next) => {
 			.then(_team => {
 				team = _team;
 				console.log(team)
-				return Season.findByIdAndUpdate({_id: '5ba2bd394a76af4ad3ee4c3a'}, {$push: { teams: team._id }});
+				return Season.findByIdAndUpdate({_id: '5c257230981836782a7c6e80'}, {$push: { teams: team._id }});
 			})
 			.then(() => {
 				return res.status(201).json(team);

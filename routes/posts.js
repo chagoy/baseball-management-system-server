@@ -75,7 +75,7 @@ router.post('/', jwtAuth, upload, async (req, res, next) => {
 			.then(_post => {
 				post = _post;
 				console.log(post)
-				return Season.findByIdAndUpdate({_id: '5ba2bd394a76af4ad3ee4c3a'}, {$push: { posts: _post.id }});
+				return Season.findByIdAndUpdate({_id: '5c257230981836782a7c6e80'}, {$push: { posts: _post.id }});
 			})
 			.then(() => {
 				return res.status(201).json(post);

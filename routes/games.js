@@ -22,7 +22,7 @@ router.get('/user', jwtAuth, async (req, res) => {
 	let teams = user.players.map(player => player.team)
 	
 	return Game.find({
-		season: '5ba2bd394a76af4ad3ee4c3a',
+		season: '5c257230981836782a7c6e80',
 		$or: [{'home': { $in: teams }}, {'away': {$in: teams}}],
 		time: { 
 			$gte: today,
@@ -38,7 +38,7 @@ router.get('/user', jwtAuth, async (req, res) => {
 
 router.get('/', (req, res, next) => {
 	return Game.find({
-		season: '5ba2bd394a76af4ad3ee4c3a'
+		season: '5c257230981836782a7c6e80'
 	})
 	.sort({time: 1})
 	.populate('home')
@@ -52,7 +52,7 @@ router.get('/upcoming', (req, res, next) => {
 	let end = moment(today).add(6, 'months').toISOString();
 
 	return Game.find({
-		season: "5ba2bd394a76af4ad3ee4c3a", 
+		season: "5c257230981836782a7c6e80", 
 		time: {
 			$gte: today,
 			$lt: end
@@ -114,7 +114,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	time = moment(time, 'MM-DD-YYYY h:mm a').toISOString();
 
 	return Game.create({
-		home, away, location, time, season: '5ba2bd394a76af4ad3ee4c3a'
+		home, away, location, time, season: '5c257230981836782a7c6e80'
 	})
 	.then(_game => {
 		game = _game;
