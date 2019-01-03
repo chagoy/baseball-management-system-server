@@ -20,7 +20,7 @@ const UserSchema = mongoose.Schema({
 	verified: { type: Boolean, default: false },
 	hash: { type: String, required: true},
 	resetToken: { type: String, default: null },
-	price: { type: Number, required: true, default: 100}
+	price: { type: Number, required: true, default: 130}
 });
 
 UserSchema.virtual('fullName').get(function() {
