@@ -24,6 +24,7 @@ import StandingsPage from './components/standings-page';
 import TeamAssign from './components/team-assign'
 import PlayerTeam from './components/player-team';
 import Results from './components/results';
+import RulesPage from './components/rules-page';
 
 export class App extends Component {
 
@@ -51,6 +52,7 @@ export class App extends Component {
           <Route path='/teamassign' component={TeamAssign} />
           <Route path='/team2' component={PlayerTeam} />
           <Route path='/results' component={Results} />
+          <Route exact path='/rules' component={RulesPage} />
         </div>
         {/*<Footer/>*/}
       </div>

@@ -14,7 +14,7 @@ export class LeaguePage extends React.Component {
 					<p className='league-text'>Our programs foster and build character by teaching real life skills on and off the field. We have many focuses such as teamwork, sportsmanship, health and well-being, networking and building relationships, leadership, athleticism, and positive competitiveness as our children grow up to be young adults and leaders in the community.</p>
 					<p>MPK Board</p>
 					<h3>Want to get involved? Have a question?</h3>
-					<p><a href="mailto:mpkbaseball15@gmail.com">Send us an email</a></p>
+					<p><a href="mailto:gprez@mpkbaseball.com">Send us an email</a></p>
 				</div>
 			</div>
 		)

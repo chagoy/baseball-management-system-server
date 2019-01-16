@@ -15,7 +15,7 @@ export class Schedule extends React.Component {
 		return (
 			<div className="schedule">
 				<div className='flex-row'>
-					<h1 className="schedule-title">Fall 2018 Schedule</h1>
+					<h1 className="schedule-title">Fall 2019 Schedule</h1>
 				</div>
 				<div className='flex-row'>
 					<ul className="schedule-list">

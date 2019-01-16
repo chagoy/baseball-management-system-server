@@ -82,7 +82,7 @@ router.post('/', jwtAuth, upload, (req, res, next) => {
 			})
 			.then(() => {
 				return Team.create({
-					name, division, logo, season: '5ba2bd394a76af4ad3ee4c3a'
+					name, division, logo, season: '5c257230981836782a7c6e80'
 				})
 			})
 			.then(_team => {
