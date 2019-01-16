@@ -131,6 +131,8 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	})
 })
 
+//random change
+
 router.put('/scores', jwtAuth, async (req, res, next) => {
 
 	const { id, homeId, awayId, homeScore, awayScore } = req.body;
