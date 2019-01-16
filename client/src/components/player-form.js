@@ -26,7 +26,7 @@ export class PlayerForm extends React.Component {
 
   componentDidMount() {
   	let stripeKey = STRIPE_KEY
-  	console.log(stripeKey)
+  	// console.log(stripeKey)
     if (window.Stripe) {
       this.setState({stripe: window.Stripe(stripeKey)});
     } else { 
