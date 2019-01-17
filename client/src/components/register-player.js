@@ -13,7 +13,8 @@ export function RegisterPlayer(props) {
 	return (
 		<div>
 			<main className="home">
-				<PlayerForm authToken={props.authToken} />
+				{/*<PlayerForm authToken={props.authToken} />*/}
+				Player registration temporarily down.
 			</main>
 			<footer>
 			{ props.loggedIn ? <Back /> : '' }
