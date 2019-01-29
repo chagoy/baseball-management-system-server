@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { downloadCSV } from '../actions/players'
 import PlayersTable from './players-table';
 import { Redirect, Link } from 'react-router-dom';
+import { API_BASE_URL } from '../config'
 require('./admin-page.css');
 
 export class AdminPage extends React.Component {
@@ -12,7 +13,7 @@ export class AdminPage extends React.Component {
 			return <Redirect to='/' />;
 		}
 
-		let baseUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:8080/api/players/csv/';
+		let baseUrl = API_BASE_URL || 'http://localhost:5000/api/players/csv/';
 
 		return (
 			<div className="admin-view">
