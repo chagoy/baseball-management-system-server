@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PlayerForm from './player-form';
 import Back from './back';
-require('./register-player.css');
+// require('./register-player.css');
 
 export function RegisterPlayer(props) {
 	if (!props.loggedIn) {

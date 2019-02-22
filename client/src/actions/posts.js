@@ -15,16 +15,36 @@ export const fetchPostError = error => ({
 });
 
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
-export const fetchPostsSuccess = posts => ({
+export const fetchPostsSuccess = (posts) => ({
 	type: FETCH_POSTS_SUCCESS,
 	posts
 });
 
 export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
-export const fetchPostsErros = error => ({
+export const fetchPostsErrors = error => ({
 	type: FETCH_POSTS_ERROR,
 	error
 });
+
+export const getPosts = post => (dispatch, getState) => {
+	console.log('hi')
+	return fetch(`${API_BASE_URL}/api/posts`, {
+		method: 'GET',
+	})
+	.then(res => normalizeResponseErrors(res))
+	.then(res => res.json())
+	.then(data => dispatch(fetchPostsSuccess(data)))
+	.catch(err => {
+		const { reason, message, location } = err;
+		if (reason === 'ValidationError') {
+			return Promise.reject(
+				new SubmissionError({
+					[location]: message
+				})
+			)
+		}
+	})
+}
 
 export const makePost = post => (dispatch, getState) => {
 	const authToken = getState().auth.authToken;

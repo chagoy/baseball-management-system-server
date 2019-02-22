@@ -25,6 +25,11 @@ import TeamAssign from './components/team-assign'
 import PlayerTeam from './components/player-team';
 import Results from './components/results';
 import RulesPage from './components/rules-page';
+import ShetlandRules from './components/shetland-rules';
+import PintoRules from './components/pinto-rules';
+import MustangRules from './components/mustang-rules';
+import BroncoRules from './components/bronco-rules';
+import NewsPage from './components/news-page';
 
 export class App extends Component {
 
@@ -33,7 +38,7 @@ export class App extends Component {
       <div className="App">
         <Navbar />
         {/*<CustomNavbar />*/}
-        <div className="">
+        <div>
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/dashboard" component={Dashboard} />
@@ -42,6 +47,7 @@ export class App extends Component {
           <Route exact path="/register-player" component={RegisterPlayer} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/player/:id" component={PlayerPage} />
+          <Route exact path='/news' component={NewsPage} />
           <Route path="/team/:id" component={Team} />
           {/*<Route path='/game/:id' component={GamePage} />*/}
           <Route exact path='/standings' component={StandingsPage} />
@@ -53,8 +59,12 @@ export class App extends Component {
           <Route path='/team2' component={PlayerTeam} />
           <Route path='/results' component={Results} />
           <Route exact path='/rules' component={RulesPage} />
+          <Route exact path='/rules/shetland' component={ShetlandRules} />
+          <Route exact path='/rules/pinto' component={PintoRules} />
+          <Route exact path='/rules/mustang' component={MustangRules} />
+          <Route exact path='/rules/bronco' component={BroncoRules} />
         </div>
-        {/*<Footer/>*/}
+        <Footer/>
       </div>
     );
   }

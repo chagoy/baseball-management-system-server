@@ -7,7 +7,7 @@ import GameForm from './game-form';
 import PostForm from './post-form';
 import { getAllTeams } from '../actions/teams';
 import Loading from './loading';
-require('./admin-create.css')
+// require('./admin-create.css')
 
 class AdminCreate extends React.Component {
 	componentDidMount() {

@@ -12,6 +12,7 @@ const customStyles = {
 }
 
 export default class GameModal extends React.Component {
+
 	constructor() {
 		super();
 		this.state = {

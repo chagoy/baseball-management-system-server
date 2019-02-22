@@ -1,14 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Table, Header, Image } from 'semantic-ui-react';
 
 export default function StandingsRow(props) {
 	return (
-		<tr className='team-row'>
-			<td className='team-name'><span className='name-span'>{props.team.logo ? <img src={props.team.logo} className='standings-logo' /> : ''} <Link to={`/team/${props.team._id}`} >{props.team.name}</Link></span></td>
-			<td>{props.team.wins}</td>
-			<td>{props.team.losses}</td>
-			<td>{props.team.draws}</td>
-			<td>{props.team.gamesBack}</td>
-		</tr>
+		<Table.Row>
+			<Table.Cell>
+				<Header as='h4' image>
+					<Image src={props.team.logo} size='mini' />
+					<Header.Content>
+						<Link to={`/team/${props.team._id}`}>{props.team.name}</Link>
+					</Header.Content>
+				</Header>
+			</Table.Cell>
+			<Table.Cell>
+				{props.team.wins}
+			</Table.Cell>
+			<Table.Cell>
+				{props.team.losses}
+			</Table.Cell>
+			<Table.Cell>
+				{props.team.draws}
+			</Table.Cell>
+			<Table.Cell>
+				{props.team.gamesBack}
+			</Table.Cell>
+		</Table.Row>
 	)
 }

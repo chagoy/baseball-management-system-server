@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchStandings } from '../actions/teams';
 import StandingsRow from './standings-row';
-require('./standings.css');
+import { Container, Table, Header, Item } from 'semantic-ui-react';
+// require('./standings.css');
 
 export class StandingsPage extends React.Component {
 	componentDidMount() {
@@ -10,9 +11,9 @@ export class StandingsPage extends React.Component {
 	}
 
 	render() {
-		const shetland = this.props.standings.shetland ? 
-			this.props.standings.shetland.map((team, index) => <StandingsRow key={index} team={team} /> )
-		: 'loading';
+		// const shetland = this.props.standings.shetland ? 
+		// 	this.props.standings.shetland.map((team, index) => <StandingsRow key={index} team={team} /> )
+		// : 'loading';
 		const pinto = this.props.standings.pinto ? 
 			this.props.standings.pinto.map((team, index) => <StandingsRow key={index} team={team} /> )
 		: 'loading';
@@ -22,43 +23,48 @@ export class StandingsPage extends React.Component {
 		const bronco = this.props.standings.bronco ? 
 			this.props.standings.bronco.map((team, index) => <StandingsRow key={index} team={team} /> )
 		: 'loading';
+		const pony = this.props.standings.pony ? 
+			this.props.standings.pony.map((team, index) => <StandingsRow key={index} team={team} /> )
+		: 'loading';
 		return (
-			<div className='standings-container'>
-				<h2>Standings</h2>
-				<table>
-					<tr className='header-row'>
-						<th>Team</th>
-						<th>Wins</th>
-						<th>Losses</th>
-						<th>Draws</th>
-						<th>Games Back</th>
-					</tr>
-					<tr>
-						<td colspan='5'>
-							Shetland
-						</td>
-					</tr>
-					{shetland}
-					<tr>
-						<td colspan='5'>
-							Pinto
-						</td>
-					</tr>
+			<Container>
+				<Header as='h2' textAlign='center'>Spring 2019 Standings</Header>
+				<Table>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>Team</Table.HeaderCell>
+							<Table.HeaderCell>Wins</Table.HeaderCell>
+							<Table.HeaderCell>Losses</Table.HeaderCell>
+							<Table.HeaderCell>Draws</Table.HeaderCell>
+							<Table.HeaderCell>Games Back</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
+					<Table.Row>
+						<Table.Cell colspan='5'>
+							<Header as='h3'>Pinto</Header>
+						</Table.Cell>
+					</Table.Row>
 					{pinto}
-					<tr>
-						<td colspan='5'>
-							Mustang
-						</td>
-					</tr>
+					<Table.Row>
+						<Table.Cell colspan='5'>
+							<Header as='h3'>Mustang</Header>
+						</Table.Cell>
+					</Table.Row>
 					{mustang}
-					<tr>
-						<td colspan='5'>
-							Bronco
-						</td>
-					</tr>
+					<Table.Row>
+						<Table.Cell colspan='5'>
+							<Header as='h3'>Bronco</Header>
+						</Table.Cell>
+					</Table.Row>
 					{bronco}
-				</table>
-			</div>
+					<Table.Row>
+						<Table.Cell colspan='5'>
+							<Header as='h3'>Pony</Header>
+						</Table.Cell>
+					</Table.Row>
+					{pony}
+				</Table>
+			</Container>
 		)
 	}
 }

@@ -1,4 +1,4 @@
-.background {
+.landing-page-background {
 	background-image: url('https://s3-us-west-2.amazonaws.com/am-i-going-over/neonbrand-423333-unsplash.jpg');
 	background-size: cover;
 	min-height: 100vh;
@@ -6,30 +6,30 @@
 	overflow: hidden;
 }
 
-.header {
+.landing-page-header {
 	padding-top: 100px;
 	margin: 0 auto;
 	text-align: center;
 }
 
-.header > p, h1 {
+.landing-page-header > p, h1 {
 	text-transform: uppercase;
 	filter: drop-shadow(0px 0px 1.3px rgba(0, 0, 0, 0.5));
 	font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", "sans-serif";
 }
 
-.headline-text {
+.landing-page-headline-text {
 	font-size: 3.2rem;
 	color: #D90000;
 	letter-spacing: 1px;
 }
 
-.tagline {
+.landing-page-tagline {
 	color: white;
 	font-size: 1.5rem;
 }
 
-.register-button {
+.landing-page-register-button {
 	padding: 12px 30px;
 	border: none;
 	color: white;
@@ -41,16 +41,16 @@
 	filter: drop-shadow(0px 0px 1.3px rgba(255, 255, 255, 0.9));
 }
 
-.register-button a {
+.landing-page-register-button a {
 	color: white;
 }
 
-.register-button a:hover {
+.landing-page-register-button a:hover {
 	color: #dcdcdc;
 }
 
 @media (max-width: 640px) {
-	.header {
+	.landing-page-header {
 		padding-top: 20px;
 	}
 }

@@ -5,7 +5,7 @@ import Textarea from './textarea';
 import Input from './input';
 import File from './file-input';
 import { makePost } from '../actions/posts';
-require('./post-form.css')
+// require('./post-form.css')
 
 class PostForm extends React.Component {
 	onSubmit(values) {

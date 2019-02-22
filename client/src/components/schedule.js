@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { fetchUpcomingGames } from '../actions/games';
 import GameElement from './game-element';
 import Loading from './loading';
-require('./schedule.css');
+import { Container, Header, Grid } from 'semantic-ui-react';
+// require('./schedule.css');
 
 export class Schedule extends React.Component {
 	componentDidMount() {
@@ -11,25 +12,25 @@ export class Schedule extends React.Component {
 	}
 
 	render() {
-		let gamesData = this.props.games.length > 0 ? this.props.games.map((game, index) => <GameElement admin={this.props.admin} key={ index } game={ game }/>) : 'No games on the schedule';
+		let gamesData = this.props.games.length > 0 ? this.props.games.map((game, index) => <GameElement user={this.props.user ? this.props.user.admin : false} key={ index } game={ game }/>) : 'No games on the schedule';
 		return (
-			<div className="schedule">
-				<div className='flex-row'>
-					<h1 className="schedule-title">Fall 2019 Schedule</h1>
-				</div>
-				<div className='flex-row'>
-					<ul className="schedule-list">
-						{gamesData}
-					</ul>
-				</div>
-			</div>
+			<React.Fragment>
+				<Header textAlign='center'>Spring 2019 Schedule</Header>
+				<Grid textAlign="center" columns={16}>
+					<Grid.Row>
+						<Grid.Column computer={10} mobile={16}>
+							{gamesData}
+						</Grid.Column>
+					</Grid.Row>
+				</Grid>
+			</React.Fragment>	
 		)
 	}
 }
 
 
 const mapStateToProps = state => ({
-	// admin: state.auth.currentUser.admin,
+	user: state.auth.currentUser,
 	games: state.game.games
 });
 

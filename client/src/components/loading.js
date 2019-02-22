@@ -1,5 +1,5 @@
 import React from 'react';
-require('./loading.css');
+// require('./loading.css');
 
 export default function Loading(props) {
 	return (

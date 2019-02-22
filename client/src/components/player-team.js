@@ -4,7 +4,7 @@ import { getAllTeams } from '../actions/teams';
 import { assignTeam } from '../actions/players';
 import { Field, reduxForm } from 'redux-form';
 import Select from './select';
-import './players-table.css';
+// import './players-table.css';
 
 export class PlayerTeam extends React.Component {
 	componentDidMount() {

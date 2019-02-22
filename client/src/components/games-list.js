@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchGames, selectedGameSuccess } from '../actions/games';
 import GameElement from './game-element';
 import Loading from './loading';
-require('./game-element')
+// require('./game-element')
 
 export class GamesList extends React.Component {
 	componentDidMount() {
