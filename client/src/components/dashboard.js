@@ -5,7 +5,6 @@ import GamesList from './games-list';
 import { fetchProtectedData } from '../actions/protected-data';
 import PlayerCard from './player-card';
 import { Button } from 'semantic-ui-react';
-// require('./dashboard.css');
 
 export class Dashboard extends React.Component {
 	componentDidMount() {

@@ -6,7 +6,6 @@ import PayConfirm from './pay-confirm';
 import {Link} from 'react-router-dom';
 import PlayerTeam from './player-team';
 import { Table } from 'semantic-ui-react';
-// import './players-table.css'
 
 export class PlayersTable extends React.Component {
 	

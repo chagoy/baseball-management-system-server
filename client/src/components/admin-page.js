@@ -4,7 +4,6 @@ import { downloadCSV } from '../actions/players'
 import PlayersTable from './players-table';
 import { Redirect, Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config'
-// require('./admin-page.css');
 
 export class AdminPage extends React.Component {
 

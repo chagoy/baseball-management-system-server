@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import { Segment, Label, Header } from 'semantic-ui-react';
-// require('./player-card.css');
 
 export default function PlayerCard(props) {
 	let color = '';

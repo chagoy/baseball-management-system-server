@@ -5,7 +5,6 @@ import DivisionSelect from './division-select';
 import TeamSelect from './team-select';
 import {Redirect, Link, withRouter} from 'react-router-dom';
 import NotesForm from './add-notes';
-// require('./player.css')
 
 export class Player extends React.Component {
 	componentWillMount() {			

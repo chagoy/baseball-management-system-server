@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import GameModal from './game-modal';
 import SemanticModal from './semantic-modal';
 import { Grid, Responsive, Container, Item, Icon, Search, Button, Image, Segment, Divider, Header, Table, Message, Label } from 'semantic-ui-react';
-// require('./game-element.css');
 
 export default function GameElement(props) {
 	let color = '';

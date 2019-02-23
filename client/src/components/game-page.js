@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getGame } from '../actions/games';
-// require('./game-page.css');
 
 export class GamePage extends React.Component {
 	componentDidMount() {

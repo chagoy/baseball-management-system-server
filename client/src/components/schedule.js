@@ -4,7 +4,6 @@ import { fetchUpcomingGames } from '../actions/games';
 import GameElement from './game-element';
 import Loading from './loading';
 import { Container, Header, Grid } from 'semantic-ui-react';
-// require('./schedule.css');
 
 export class Schedule extends React.Component {
 	componentDidMount() {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Header } from 'semantic-ui-react';
-// require('./league-page.css')
 
 export class LeaguePage extends React.Component {
 

@@ -16,10 +16,10 @@ class Navbar extends React.Component {
 		if (this.props.loggedIn !== true) {
 			return ( 
 				<div>
-					<Link to={'/register'}>Play</Link>
+					{/* <Link to={'/register'}>Play</Link> */}
 					<Link to={'/schedule'}>Schedule</Link>
 					<Link to={'/standings'}>Standings</Link>
-					<Link to={'/register'}>Get Involved</Link>
+					{/* <Link to={'/register'}>Get Involved</Link> */}
 					<Link to={'/league'}>League</Link>
 					<Link to={'/rules'}>Rules</Link>
 					<Link to={'/login'}>Login</Link>
@@ -29,7 +29,7 @@ class Navbar extends React.Component {
 			return (
 				<div>
 					<Link to={'/dashboard'}>Home</Link>
-					<Link to={'/register-player'}>Register</Link>
+					{/* <Link to={'/register-player'}>Register</Link> */}
 					<Link to={'/results'}>Results</Link>
 					<Link to={'/schedule'}>Schedule</Link>
 					<Link to={'/standings'}>Standings</Link>

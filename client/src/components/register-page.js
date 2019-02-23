@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import RegistrationForm from './registration-form';
-// require('./register-page.css');
 
 export function RegisterPage(props) {
 	if (props.loggedIn) {

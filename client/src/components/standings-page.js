@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { fetchStandings } from '../actions/teams';
 import StandingsRow from './standings-row';
 import { Container, Table, Header, Item } from 'semantic-ui-react';
-// require('./standings.css');
 
 export class StandingsPage extends React.Component {
 	componentDidMount() {
