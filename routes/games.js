@@ -47,6 +47,18 @@ router.get('/', (req, res, next) => {
 	.catch(err => console.error(err.message))
 })
 
+router.get('/completed', (req, res, next) => {
+	return Game.find({
+		season: '5c257230981836782a7c6e80',
+		completed: true
+	})
+	.sort({time: 1})
+	.populate('home')
+	.populate('away')
+	.then(games => res.status(201).json(games))
+	.catch(err => console.error(err.message))
+})
+
 router.get('/upcoming', (req, res, next) => {
 	let today = moment().startOf('day').toISOString();
 	let end = moment(today).add(6, 'months').toISOString();
@@ -136,6 +148,8 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 router.put('/scores', jwtAuth, async (req, res, next) => {
 
 	const { id, homeId, awayId, homeScore, awayScore } = req.body;
+
+	console.log(req.body);
 
 	let game = await Game.findByIdAndUpdate({_id: id});
 

@@ -91,7 +91,7 @@ router.post('/', jwtAuth, upload, async (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-	return Post.find({})
+	return Post.find({}).populate('author').sort({createdAt: -1})
 		.then(posts => res.status(201).json(posts))
 })
 

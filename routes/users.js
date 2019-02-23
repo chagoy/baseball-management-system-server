@@ -122,11 +122,13 @@ router.post('/', jsonParser, (req, res, next) => {
 		.then(user => {
 			const msg = {
 			  to: user.email,
-			  from: 'mpkbaseball15@gmail.com',
+			  from: 'admin@mpkbaseball.com',
+			  //bcc: ['admin@mpkbaseball.com', 'gprez@mpkbaseball.com', 'mpkbaseball15@gmail.com'],
+			  bcc: ['angelochagoy@gmail.com'],
 			  subject: 'Thank you for registering!',
 			  text: 'and easy to do anywhere, even with Node.js',
 			  html: `<h3>Welcome to the MPK Family</h3>
-			  <p>We look forward to your participation with MPK Baseball & Softball. But first, we need you to <a href="/${user.verificationCode}">verify your account</a>. Click the link and you'll be on your way to playing in the 2019 Season</p>
+			  <p>We look forward to your participation with MPK Baseball & Softball. But first, we need you to <a href="https://localhost:5000/verification/${user.verificationCode}">verify your account</a>. Click the link and you'll be on your way to playing in the 2019 Season</p>
 			  <p>-MPK Board</p>
 			  <p>404-374-5014</p>`,
 			};

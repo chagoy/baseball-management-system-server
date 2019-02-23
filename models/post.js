@@ -12,7 +12,7 @@ const PostSchema = mongoose.Schema({
 }, { timestamps: true });
 
 PostSchema.virtual('date').get(function() {
-	return this.createdAt;
+	return moment(this.createdAt).fromNow();
 })
 
 PostSchema.set('toObject', { virtuals: true});

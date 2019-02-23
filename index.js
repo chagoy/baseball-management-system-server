@@ -72,8 +72,8 @@ app.post('/api/stripe', jwtAuth, async (req, res) => {
       const token = req.body.token;
       console.log(token.id)
       let {status} = await stripe.charges.create({
-          // amount: req.user.price * 100,
-          amount: price,
+          amount: req.user.price * 100,
+          // amount: price,
           currency: 'usd',
           description: 'mpk baseball registration',
           statement_descriptor: 'spring 2019',
@@ -82,6 +82,7 @@ app.post('/api/stripe', jwtAuth, async (req, res) => {
 
       res.json({status});
     } catch (err) {
+      console.error(err)
       res.status(500).json(err).end();
     }
   } else {

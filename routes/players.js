@@ -140,7 +140,9 @@ router.post('/', jwtAuth, upload, async (req, res, next) => {
 			console.log(req.user.email)
 			const msg = {
 				to: req.user.email,
-				from: 'mpkbaseball@gmail.com',
+				from: 'admin@mpkbaseball.com',
+				//bcc: ['admin@mpkbaseball.com', 'gprez@mpkbaseball.com', 'mpkbaseball15@gmail.com'],
+				bcc: ['angelochagoy@gmail.com'],
 				subject: `Thank you for registering ${player.firstName} for the Spring Season - MPK Baseball & Softball`,
 				text: `Dear ${req.user.fullName}, Thank you for registering your child for the Spring 2019 season with MPK Baseball & Softball. If your child is registered for Shetland, coaches will have their rosters by late January and we will reach out then with practice times. For those of you who are playing in Pinto or above, you will be required to participate in an evaluation and before the draft (unless you've been contacted and told you will be locked by a coach). Evaluation dates for Pinto - Jan 16 - 5:45pm, Mustang - Jan 17 - 5:45pm, Bronco - Jan 17 - 7:30pm, Pony - Jan 16 - 7:30pm.`,
 				html: `<h2>Welcome to the MPK Baseball & Softball Spring 2019 Season</h2>
