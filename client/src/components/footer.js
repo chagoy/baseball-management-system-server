@@ -11,15 +11,15 @@ export default function Footer(props) {
 						<Grid.Column width={3}>
 							<Header inverted as='h4' content='About' />
 							<List link inverted>
-								<List.Item as='a'>Sitemap</List.Item>
+								{/* <List.Item as='a'>Sitemap</List.Item>
 								<List.Item as='a'>Contact</List.Item>
-								<List.Item as='a'>Whatever</List.Item>
+								<List.Item as='a'>Whatever</List.Item> */}
 							</List>
 						</Grid.Column>
 						<Grid.Column width={3}>
 							<Header inverted as='h4' content='services' />
 								<List link inverted>
-									<List.Item as='a'>Banans</List.Item>
+									{/* <List.Item as='a'>Banans</List.Item> */}
 								</List>
 						</Grid.Column>
 						<Grid.Column width={7}>
