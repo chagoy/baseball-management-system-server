@@ -1,4 +1,4 @@
-import { FETCH_TEAM_SUCCESS, FETCH_TEAM_ERROR, FETCH_ALL_TEAMS_SUCCESS, FETCH_ALL_TEAMS_ERROR, FETCH_ALL_TEAMS_LOADING, FETCH_STANDINGS_SUCCESS, FETCH_STANDINGS_ERROR} from '../actions/teams';
+import { FETCH_TEAM_SUCCESS, FETCH_TEAM_ERROR, FETCH_ALL_TEAMS_SUCCESS, FETCH_ALL_TEAMS_ERROR, FETCH_ALL_TEAMS_LOADING, FETCH_STANDINGS_SUCCESS, FETCH_STANDINGS_ERROR, FETCH_TEAM_GAMES_SUCCESS} from '../actions/teams';
 import { UPDATE_TEAM_SUCCESS } from '../actions/players';
 
 const initialState = {
@@ -6,7 +6,8 @@ const initialState = {
 	teams: [],
 	standings: {},
 	error: null,
-	loading: false
+	loading: false, 
+	games: []
 }
 
 export default function reducer(state = initialState, action) {
@@ -42,6 +43,10 @@ export default function reducer(state = initialState, action) {
 	} else if (action.type === FETCH_STANDINGS_ERROR) {
 		return Object.assign({}, state, {
 			error: action.error
+		})
+	} else if (action.type === FETCH_TEAM_GAMES_SUCCESS) {
+		return Object.assign({}, state, {
+			games: action.games
 		})
 	}
 	return state;

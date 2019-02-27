@@ -1,17 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchTeam } from '../actions/teams';
-import { fetchAllPlayers} from '../actions/players';
+import { fetchTeamGames } from '../actions/teams';
+import GameElement from './game-element';
 
 export class Team extends React.Component {
 	componentWillMount() {
-		return this.props.dispatch(fetchAllPlayers())
+		console.log(this.props.match.params.id);
+		let teamId = this.props.match.params.id;
+		return this.props.dispatch(fetchTeamGames(teamId))
 	}
 
 	render() {
+		let gamesData = this.props.games.length > 0 ? this.props.games.map((game, index) => <GameElement admin={this.props.admin} key={ index } game={ game }/>) : 'No games to show';
 
 		return (
-			<h1>under construction</h1>
+			<React.Fragment>
+				{gamesData}
+			</React.Fragment>
 		)
 	}
 }
@@ -19,7 +25,8 @@ export class Team extends React.Component {
 const mapStateToProps = state => ({
 	loggedIn: state.auth.currentuser !== null,
 	players: state.player.players,
-	team: state.team.team
+	team: state.team.team,
+	games: state.team.games
 })
 
 export default connect(mapStateToProps)(Team)

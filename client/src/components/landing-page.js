@@ -14,12 +14,12 @@ export function LandingPage(props) {
 				<header className="landing-page-header">
 					<h1 className="landing-page-headline-text">MPK Baseball & Softball</h1>
 					<p className="landing-page-tagline">the spring 2019 season is underway!</p>
-					<Link to={'/register'}>
+					{/* <Link to={'/register'}>
 						<button className="landing-page-register-button">
 							Register now
 						</button>
 					</Link>
-					
+					 */}
 				</header>
 			</div>
 		</div>

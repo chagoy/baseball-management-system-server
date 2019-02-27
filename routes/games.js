@@ -90,6 +90,8 @@ router.get('/byteam/:id', (req, res, next) => {
 	let { id } = req.params;
 	console.log(id)
 	return Game.find({$or: [{home: id}, {away: id}]})
+			.populate('home')
+			.populate('away')
 			.then(games => res.status(201).json(games))
 			.catch(err => console.error(err))
 

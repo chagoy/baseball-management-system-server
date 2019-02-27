@@ -46,6 +46,18 @@ export const fetchStandingsError = error => ({
 	error
 })
 
+export const FETCH_TEAM_GAMES_SUCCESS = 'FETCH_TEAM_GAMES_SUCCESS';
+export const fetchTeamGamesSuccess = games => ({
+	type: FETCH_TEAM_GAMES_SUCCESS,
+	games
+});
+
+export const FETCH_TEAM_GAMES_ERRORS = 'FETCH_TEAM_GAMES_ERRORS';
+export const fetchTeamGamesErrors = error => ({
+	type: FETCH_TEAM_GAMES_ERRORS,
+	error
+});
+
 export const createTeam = team => (dispatch, getState) => {
 	const authToken = getState().auth.authToken;
 
@@ -110,3 +122,18 @@ export const fetchStandings = () => (dispatch, getState) => {
 		dispatch(fetchStandingsError(err));
 	})
 }
+
+export const fetchTeamGames = (team) => (dispatch, getState) => {
+	return fetch(`${API_BASE_URL}/api/games/byteam/${team}`, {
+		method: 'GET',
+		headers: {
+			'content-type': 'application/json'
+		}
+	})
+	.then(res => normalizeResponseErrors(res))
+	.then(res => res.json())
+	.then(data => dispatch(fetchTeamGamesSuccess(data)))
+	.catch(err => {
+		dispatch(fetchTeamGamesErrors(err));
+	})
+} 
