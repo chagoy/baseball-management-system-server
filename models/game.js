@@ -18,6 +18,9 @@ const GameSchema = mongoose.Schema({
 	completed: { type: Boolean, default: false }
 });
 
+GameSchema.set('toJson', {virtuals: true});
+GameSchema.set('toObject', {virtuals: true});
+
 GameSchema.virtual('date').get(function() {
 	return moment(this.time).format("dddd, MMMM Do");
 });
@@ -26,8 +29,6 @@ GameSchema.virtual('realTime').get(function() {
 	return moment(this.time).format("h:mm a");
 });
 
-GameSchema.set('toJson', {virtuals: true});
-GameSchema.set('toObject', {virtuals: true});
 const Game = mongoose.model('Game', GameSchema);
 
 module.exports = {Game};
