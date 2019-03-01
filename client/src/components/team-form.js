@@ -42,6 +42,11 @@ export class TeamForm extends React.Component {
 								validators={[required]}
 								warn={[required]}
 						/>
+				<label className='label-control' htmlForm='sport'>Sport</label>
+				<Field component={Select}
+					selectInput='team-select'
+					name='sport'
+					options={{baseball: 'baseball', softball: 'softball'}}/>
 				<button type="submit" className="team-button" disabled={this.props.pristine || this.props.submitting}>Submit</button>
 			</form>
 		);
