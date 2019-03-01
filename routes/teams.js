@@ -65,7 +65,11 @@ router.post('/', jwtAuth, upload, (req, res, next) => {
 		});
 	}
 
-	let {name, division} = req.body;
+	let {name, division, notMpk} = req.body;
+	console.log(notMpk);
+
+	let mpk = notMpk == undefined ? false : true;
+	
 	let team = '';
 	name = name.trim();
 	return Team.find({name, division})
@@ -82,7 +86,7 @@ router.post('/', jwtAuth, upload, (req, res, next) => {
 			})
 			.then(() => {
 				return Team.create({
-					name, division, logo, season: '5c257230981836782a7c6e80'
+					name, division, logo, mpk, season: '5c257230981836782a7c6e80'
 				})
 			})
 			.then(_team => {
@@ -104,7 +108,7 @@ router.post('/', jwtAuth, upload, (req, res, next) => {
 router.get('/standings', async (req, res) => {
 	let standings = {};
 	let temporaryTeamsList = {};
-	let teams = await Team.find({});
+	let teams = await Team.find({mpk: true});
 
 	//create the function to sort all times by their division
 	const groupBy = (list, sortBy) => {
@@ -148,6 +152,19 @@ router.get('/:team', jsonParser, (req, res, next) => {
 				}
 			})
 			.catch(err => console.error(err.message))
+})
+
+router.delete('/delete/:team', jsonParser, (req, res, next) => {
+	const { team } = req.params;
+	console.log(`going to delete ${team} from the database`);
+	return Team.findByIdAndRemove({_id: team})
+		.then(data => {
+			res.status(201).json({hello: 'record deleted'})
+		})	
+		.catch(err => {
+			res.status(401).json(err);
+		})
+
 })
 
 module.exports = {router};

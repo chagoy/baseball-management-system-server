@@ -11,7 +11,9 @@ const TeamSchema = mongoose.Schema({
 	wins: { type: Number, default: 0 },
 	losses: { type: Number, default: 0 },
 	draws: { type: Number, default: 0 },
-	logo: { type: String }
+	logo: { type: String },
+	mpk: { type: Boolean, default: true },
+	sport: { type: String, default: 'baseball' }
 });
 
 TeamSchema.virtual('record').get(function() {
