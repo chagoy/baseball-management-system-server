@@ -118,13 +118,12 @@ export const fetchCompletedGames = () => (dispatch, getState) => {
 }
 
 export const fetchUpcomingGames = game => (dispatch, getState) => {
-	const authToken = getState().auth.authToken;
+	// const authToken = getState().auth.authToken;
 	
-	return fetch(`${API_BASE_URL}/api/games/upcoming`, {
+	return fetch(`${API_BASE_URL}/api/games`, {
 		method: 'GET',
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': `Bearer ${authToken}`
 		}
 	})
 	.then(res => normalizeResponseErrors(res))

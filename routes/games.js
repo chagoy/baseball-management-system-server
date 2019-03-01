@@ -70,11 +70,11 @@ router.get('/upcoming', (req, res, next) => {
 			$lt: end
 		}
 	})
-			.sort({time: 1})
-			.populate('home')
-			.populate('away')
-			.then(games => res.status(201).json(games))
-			.catch(err => console.error(err.message))
+	.sort({time: 1})
+	.populate('home')
+	.populate('away')
+	.then(games => console.log(games))
+	.catch(err => console.error(err.message))
 });
 
 router.get('/:id', (req, res, next) => {

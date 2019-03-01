@@ -6,6 +6,7 @@ import { createGame } from '../actions/games';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import renderDatePicker from "./render-datepicker";
+require('./game-form');
 
 class GameForm extends React.Component {
 	onSubmit(values) {
