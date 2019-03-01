@@ -26,6 +26,7 @@ GameSchema.virtual('realTime').get(function() {
 	return moment(this.time).format("h:mm a");
 });
 
+GameSchema.set('toJson', {virtuals: true});
 GameSchema.set('toObject', {virtuals: true});
 const Game = mongoose.model('Game', GameSchema);
 
