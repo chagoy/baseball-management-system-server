@@ -137,3 +137,14 @@ export const fetchTeamGames = (team) => (dispatch, getState) => {
 		dispatch(fetchTeamGamesErrors(err));
 	})
 } 
+
+export const deleteTeam = (team) => (dispatch, getState) => {
+	const authToken = getState().auth.authToken;
+	return fetch(`${API_BASE_URL}/api/teams/delete/${team}`, {
+		method: 'delete',
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': `Bearer ${authToken}`
+		}
+	})
+}

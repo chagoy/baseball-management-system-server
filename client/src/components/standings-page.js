@@ -14,17 +14,18 @@ export class StandingsPage extends React.Component {
 		// 	this.props.standings.shetland.map((team, index) => <StandingsRow key={index} team={team} /> )
 		// : 'loading';
 		const pinto = this.props.standings.pinto ? 
-			this.props.standings.pinto.map((team, index) => <StandingsRow key={index} team={team} /> )
+			this.props.standings.pinto.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
 		const mustang = this.props.standings.mustang ? 
-			this.props.standings.mustang.map((team, index) => <StandingsRow key={index} team={team} /> )
+			this.props.standings.mustang.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
 		const bronco = this.props.standings.bronco ? 
-			this.props.standings.bronco.map((team, index) => <StandingsRow key={index} team={team} /> )
+			this.props.standings.bronco.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
 		const pony = this.props.standings.pony ? 
-			this.props.standings.pony.map((team, index) => <StandingsRow key={index} team={team} /> )
+			this.props.standings.pony.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
+		console.log(this.props.user);
 		return (
 			<Container>
 				<Header as='h2' textAlign='center'>Spring 2019 Standings</Header>
@@ -69,7 +70,8 @@ export class StandingsPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-	standings: state.team.standings
+	standings: state.team.standings,
+	user : state.auth.currentUser
 });
 
 export default connect(mapStateToProps)(StandingsPage)

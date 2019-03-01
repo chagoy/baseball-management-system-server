@@ -5,6 +5,7 @@ import File from './file-input';
 import Select from './select';
 import { createTeam } from '../actions/teams';
 import { required } from '../validators';
+import Checkbox from './checkbox';
 
 export class TeamForm extends React.Component {
 	onSubmit(values) {
@@ -33,6 +34,13 @@ export class TeamForm extends React.Component {
 						<Field name="logo"
 								component={File}
 								fileClass="file-upload"
+						/>
+				<Field component={Checkbox}
+								inputClass='player-input'
+								name='notMpk'
+								label='Is this an MPK team?'
+								validators={[required]}
+								warn={[required]}
 						/>
 				<button type="submit" className="team-button" disabled={this.props.pristine || this.props.submitting}>Submit</button>
 			</form>

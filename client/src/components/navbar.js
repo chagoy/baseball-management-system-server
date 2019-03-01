@@ -17,6 +17,7 @@ class Navbar extends React.Component {
 			return ( 
 				<div>
 					{/* <Link to={'/register'}>Play</Link> */}
+					<Link to={'/news'}>News</Link>
 					<Link to={'/schedule'}>Schedule</Link>
 					<Link to={'/standings'}>Standings</Link>
 					{/* <Link to={'/register'}>Get Involved</Link> */}
@@ -29,6 +30,7 @@ class Navbar extends React.Component {
 			return (
 				<div>
 					<Link to={'/dashboard'}>Home</Link>
+					<Link to={'/news'}>News</Link>
 					{/* <Link to={'/register-player'}>Register</Link> */}
 					<Link to={'/results'}>Results</Link>
 					<Link to={'/schedule'}>Schedule</Link>

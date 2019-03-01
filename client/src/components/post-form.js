@@ -22,6 +22,7 @@ class PostForm extends React.Component {
 						type='text'
 						name='title'
 					/>
+
 					<label htmlFor='body'>Body</label>
 					<Field component={Textarea}
 						name='body'
