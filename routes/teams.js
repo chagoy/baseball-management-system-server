@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const {Team} = require('../models/team');
 const {Player} = require('../models/player');
 const {Season} = require('../models/season');
+const {Game} = require('../models/game');
 require('../util/mksort');
 
 const router = express.Router();
@@ -165,6 +166,31 @@ router.delete('/delete/:team', jsonParser, (req, res, next) => {
 			res.status(401).json(err);
 		})
 
+})
+
+router.get('/reset/everything/teams', jwtAuth, (req, res, next) => {
+	const { email } = req.user;
+
+	if (email == 'angelochagoy@gmail.com') {
+		console.log('you are the master');
+		console.log('time to reset everything');
+		//delete all teams
+		//delete all games
+		return Team.deleteMany({}).then(() => res.status(201).send('done'));
+	}
+})
+
+router.get('/reset/everything/games', jwtAuth, (req, res, next) => {
+	const { email } = req.user;
+
+	if (email == 'angelochagoy@gmail.com') {
+		console.log('you are the master');
+		console.log('time to reset everything');
+		//delete all teams
+		//delete all games
+		return Game.deleteMany({})
+		.then(() => res.status(201).send('done'));
+	}
 })
 
 module.exports = {router};
