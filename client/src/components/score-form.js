@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, reset } from 'redux-form';
-// import Input from './input';
 import { updateScores } from '../actions/games';
 import { Form, Input, Button, Label } from 'semantic-ui-react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
+import moment from 'moment';
 
 class ScoreForm extends React.Component {
 	constructor(props) {
@@ -49,7 +49,7 @@ class ScoreForm extends React.Component {
 					<Input onChange={this.handleChange} name='homeScore' placeholder='Home team'/>
 				</Form.Field>
 				<Form.Field inline>
-					<Label as='p' basic color={this.props.color}>{this.props.singleGame.home.division} -{this.props.singleGame.date}</Label>
+					<Label as='p' basic color={this.props.color}>{this.props.singleGame.home.division} - {moment(this.props.singleGame.time).format("dddd, MMMM Do h:mm a")}</Label>
 				</Form.Field>
 				<Button type='submit'>Submit</Button>
 			</Form>
