@@ -6,9 +6,26 @@ import { createGame } from '../actions/games';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import renderDatePicker from "./render-datepicker";
+import PropTypes from 'prop-types';
 require('./game-form');
 
 class GameForm extends React.Component {
+	static propTypes = {
+        input: PropTypes.shape({
+            onChange: PropTypes.func.isRequired,
+            value: PropTypes.string.isRequired,
+        }).isRequired,
+        meta: PropTypes.shape({
+            touched: PropTypes.bool,
+            error: PropTypes.bool,
+        }),
+        placeholder: PropTypes.string
+    }
+
+    static defaultProps = {
+        placeholder: ''
+    }
+
 	onSubmit(values) {
 		return this.props.dispatch(createGame(values))
 	}

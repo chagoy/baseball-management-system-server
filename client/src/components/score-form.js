@@ -4,12 +4,16 @@ import { Field, reduxForm, reset } from 'redux-form';
 // import Input from './input';
 import { updateScores } from '../actions/games';
 import { Form, Input, Button, Label } from 'semantic-ui-react';
+import { DateTimeInput } from 'semantic-ui-calendar-react';
 
 class ScoreForm extends React.Component {
-	state = { homeScore: '', awayScore: '' };
-
+	constructor(props) {
+		super(props);
+		this.state = { homeScore: '', awayScore: '', dateTime: '' };
+	}
 	handleChange = (e, {name, value}) => {
 		this.setState({ [name]: value })
+		console.log(this.state);
 	}
 
 	onSubmit() {
@@ -24,6 +28,18 @@ class ScoreForm extends React.Component {
 	render() {
 		return (
 			<Form onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}>
+				<Form.Field inline>
+					<DateTimeInput
+						clearable
+						name='dateTime'
+						placeholder='Date and Time'
+						value={this.state.dateTime}
+						iconPosition='left'
+						onChange={this.handleChange}
+						dateTimeFormat='MM-DD-YYYY h:mm a'
+						timeFormat='ampm'
+					/>
+				</Form.Field>
 				<Form.Field inline>
 					<label>{this.props.singleGame.away.name}</label>
 					<Input onChange={this.handleChange} name='awayScore' placeholder='Away team'/>

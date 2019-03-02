@@ -43,7 +43,10 @@ router.get('/', (req, res, next) => {
 	.sort({time: 1})
 	.populate('home')
 	.populate('away')
-	.then(games => res.status(201).json(games))
+	.then(games => {
+		console.log(games);
+		res.status(201).json(games);
+	})
 	.catch(err => console.error(err.message))
 })
 
@@ -98,7 +101,7 @@ router.get('/byteam/:id', (req, res, next) => {
 })
 
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
-	const requiredFields = ['home', 'away', 'time', 'location'];
+	const requiredFields = ['home', 'away', 'dateTime', 'location'];
 	const missingField = requiredFields.find(field => !(field in req.body));
 
 	if (missingField) {
@@ -123,9 +126,9 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		});
 	}
 
-	let {home, away, location, time} = req.body;
+	let {home, away, location, dateTime} = req.body;
 	let game;
-	time = moment(time, 'MM-DD-YYYY h:mm a').toISOString();
+	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').toISOString();
 
 	return Game.create({
 		home, away, location, time, season: '5c257230981836782a7c6e80'
@@ -149,8 +152,8 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 
 router.put('/scores', jwtAuth, async (req, res, next) => {
 
-	const { id, homeId, awayId, homeScore, awayScore } = req.body;
-
+	const { id, homeId, awayId, homeScore, awayScore, dateTime } = req.body;
+	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').toISOString();
 	console.log(req.body);
 
 	let game = await Game.findByIdAndUpdate({_id: id});
@@ -163,23 +166,23 @@ router.put('/scores', jwtAuth, async (req, res, next) => {
 	//this means we don't increment a teams wins or losses
 	if (game.winner && game.loser) {
 		if (homeScore > awayScore) {
-			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.home, loser: game.away}, {$new: true})
+			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, time, winner: game.home, loser: game.away}, {$new: true})
 		} else if (awayScore > homeScore) {
-			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.away, loser: game.home}, {$new: true})
-		} else return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
+			return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, time, winner: game.away, loser: game.home}, {$new: true})
+		} else return Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, time, draw: true}, {$new: true})
 	} else {
 		//this handles a fresh game result being added in
 		if (homeScore > awayScore) {
 			return Team.findByIdAndUpdate({_id: game.home}, {$inc: {"wins": 1}})
 			.then(() => Team.findByIdAndUpdate({_id: game.away}, {$inc: {"losses": 1}}))
-			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.home, loser: game.away}, {$new: true}))
+			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, time, winner: game.home, loser: game.away}, {$new: true}))
 			.then(updatedGame => res.status(201).json(updatedGame))
 		} else if (awayScore > homeScore) {
 			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"wins": 1}})
 			.then(() => Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}}))
-			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, winner: game.away, loser: game.home}, {$new: true }))
+			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, time, winner: game.away, loser: game.home}, {$new: true }))
 			.then(updatedGame => res.status(201).json(updatedGame))
-		} else return Game.findByIdAndUpdate({_id: id}, {completed: true, homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
+		} else return Game.findByIdAndUpdate({_id: id}, {completed: true, time, homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
 	}
 
 	return res.status(422).json({message: 'An error has occurred updating the scores'})

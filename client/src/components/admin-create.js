@@ -7,6 +7,7 @@ import GameForm from './game-form';
 import PostForm from './post-form';
 import { getAllTeams } from '../actions/teams';
 import Loading from './loading';
+import GameForm2 from './game-form2';
 
 class AdminCreate extends React.Component {
 	componentDidMount() {
@@ -18,13 +19,13 @@ class AdminCreate extends React.Component {
 	}	
 
 	render() {
-		let gameForm = this.props.teams.length > 0 ? <GameForm /> : <Loading />;
+		let gameForm = this.props.teams.length > 0 ? <GameForm teams={this.props.teams} /> : <Loading />;
 		return (
 			<div className="create">
 				<PostForm />
 				<TeamForm />
 				<SeasonForm />
-				{gameForm}
+				<GameForm2 />
 			</div>
 		)
 	}
