@@ -23,7 +23,12 @@ class GameForm2 extends React.Component {
 
     onSubmit() {
         console.log(this.state);
-        return this.props.dispatch(createGame(this.state))
+        return Promise.all([
+            this.props.dispatch(createGame(this.state)),
+            this.setState({ home: '',
+            away: '',
+            location: '',
+            dateTime: '' })]);
     }
 
     // [{ key: 'af', value: 'af', flag: 'af', text: 'Afghanistan' }, ...{}]
@@ -51,7 +56,7 @@ class GameForm2 extends React.Component {
         console.log(this.props.teams);
 
         console.log(teams);
-
+        const { home, away, location } = this.state;
         return (
             <React.Fragment>
                 <h2>Add A Game</h2>
@@ -69,13 +74,13 @@ class GameForm2 extends React.Component {
                         />
                     </Form.Field>
                     <Form.Field inline>
-                        <Select name='location' onChange={this.handleChange} placeholder='where game at' options={locations}/>
+                        <Select name='location' value={location} onChange={this.handleChange} placeholder='Game location?' options={locations}/>
                     </Form.Field>
                     <Form.Field inline>
-                        <Select name='away' onChange={this.handleChange} placeholder='Away' options={teams}/>
+                        <Select name='away' value={away} onChange={this.handleChange} placeholder='Away' options={teams}/>
                     </Form.Field>
                     <Form.Field inline>
-                        <Select name='home' onChange={this.handleChange} placeholder='Home' options={teams}/>
+                        <Select name='home' value={home} onChange={this.handleChange} placeholder='Home' options={teams}/>
                     </Form.Field>
                     <Button type='submit'>Submit</Button>
                 </Form>

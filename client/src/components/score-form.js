@@ -22,7 +22,10 @@ class ScoreForm extends React.Component {
 		let homeId = this.props.singleGame.home._id;
 		let awayId = this.props.singleGame.away._id;
 		let gameAndTeams = {id, homeId, awayId};
-		return this.props.dispatch(updateScores({...this.state, ...gameAndTeams}));
+		return Promise.all([
+			this.props.dispatch(updateScores({...this.state, ...gameAndTeams})),
+			this.setState({ homeScore: '', awayScore: '', dateTime: '' })
+		])
 	}
 
 	render() {
@@ -42,11 +45,11 @@ class ScoreForm extends React.Component {
 				</Form.Field>
 				<Form.Field inline>
 					<label>{this.props.singleGame.away.name}</label>
-					<Input onChange={this.handleChange} name='awayScore' placeholder='Away team'/>
+					<Input onChange={this.handleChange} value={this.state.awayScore} name='awayScore' placeholder='Away team'/>
 				</Form.Field>
 				<Form.Field inline>
 					<label>{this.props.singleGame.home.name}</label>
-					<Input onChange={this.handleChange} name='homeScore' placeholder='Home team'/>
+					<Input onChange={this.handleChange} value={this.state.homeScore} name='homeScore' placeholder='Home team'/>
 				</Form.Field>
 				<Form.Field inline>
 					<Label as='p' basic color={this.props.color}>{this.props.singleGame.home.division} - {moment(this.props.singleGame.time).format("dddd, MMMM Do h:mm a")}</Label>

@@ -153,14 +153,24 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 router.put('/scores', jwtAuth, async (req, res, next) => {
 
 	const { id, homeId, awayId, homeScore, awayScore, dateTime } = req.body;
-	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').toISOString();
-	console.log(req.body);
-
+	console.log('before')
+	console.log(awayScore, homeScore);
 	let game = await Game.findByIdAndUpdate({_id: id});
+	console.log(dateTime)
+	let time = dateTime ? dateTime : game.time;
+	awayScore = Game.awayScore ? Game.awayScore : awayScore;
+	homeScore = Game.homeScore ? Game.homeScore : homeScore;
+	console.log('after');
+	console.log(awayScore, homeScore);
 
 	if (!req.user.admin) {
 		return res.status(422).json({message: 'You do not have permission to update game scores'})
 	}
+
+
+
+	//update is still really weird
+	// we need to do some checks back here so we don't override anything
 
 	// check if the game already has a delcared winner and loser
 	//this means we don't increment a teams wins or losses
