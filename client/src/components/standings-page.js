@@ -13,17 +13,17 @@ export class StandingsPage extends React.Component {
 		// const shetland = this.props.standings.shetland ? 
 		// 	this.props.standings.shetland.map((team, index) => <StandingsRow key={index} team={team} /> )
 		// : 'loading';
-		const pinto = this.props.standings.Pinto ? 
-			this.props.standings.Pinto.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
+		const pinto = this.props.standings.pinto ? 
+			this.props.standings.pinto.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
-		const mustang = this.props.standings.Mustang ? 
-			this.props.standings.Mustang.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
+		const mustang = this.props.standings.mustang ? 
+			this.props.standings.mustang.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
 		const bronco = this.props.standings.bronco ? 
 			this.props.standings.bronco.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
-		const pony = this.props.standings.Pony ? 
-			this.props.standings.Pony.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
+		const pony = this.props.standings.pony ? 
+			this.props.standings.pony.map((team, index) => <StandingsRow user={this.props.user} key={index} team={team} /> )
 		: 'loading';
 		console.log(this.props.user);
 		console.log(this.props.standings);
