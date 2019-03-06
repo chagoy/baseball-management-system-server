@@ -29,7 +29,7 @@ export class TeamForm extends React.Component {
 							name="division"
 							validators={[required]}
 							warn={[required]}
-							options={{Shetland: 'Shetland 6U', Pinto: 'Pinto 8U', Mustang: 'Mustang 10U', Bronco: 'Bronco 12U', Pony: 'Pony 14u'}} />
+							options={{shetland: 'Shetland 6U', pinto: 'Pinto 8U', mustang: 'Mustang 10U', bronco: 'Bronco 12U', pony: 'Pony 14u'}} />
 				<label className="label-control" htmlFor="Logo">Team Logo</label>
 						<Field name="logo"
 								component={File}
