@@ -44,8 +44,8 @@ export default function GameElement(props) {
 					<Image src={props.game.home.logo} size='mini' avatar/>
 				</Header.Content>
 			</Header>
-			<p>{moment.utc(props.game.time).format("dddd, MMMM Do")}</p>
-			<p>{moment.utc(props.game.time).format("h:mm a")}</p>
+			<p>{moment.utc(props.game.time).local().format("dddd, MMMM Do")}</p>
+			<p>{moment.utc(props.game.time).local().format("h:mm a")}</p>
 			<p>{props.game.location}</p>
 			{ admin ? <SemanticModal color={color} game={props.game}/> : '' }
 		</Segment>
