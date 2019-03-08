@@ -128,7 +128,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 
 	let {home, away, location, dateTime} = req.body;
 	let game;
-	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').toISOString();
+	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').utc().toISOString();
 
 	return Game.create({
 		home, away, location, time, season: '5c257230981836782a7c6e80'
