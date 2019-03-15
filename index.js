@@ -6,6 +6,9 @@ const morgan = require('morgan');
 const passport = require('passport');
 const {User} = require('./models/user');
 const path = require('path');
+const util = require('util');
+const JFile = require("jfile");
+const nxFile = new JFile('/var/log/nginx/access.log');
 
 require ('dotenv').config();
 
@@ -97,6 +100,13 @@ app.post('/api/stripe', jwtAuth, async (req, res) => {
 // app.get("/", function(req, res) {
 //   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 // });
+
+process.stdout.write = (function(write) {   
+    return function(text, encoding, fd) {
+        write.apply(process.stdout, arguments); // write to console
+        nxFile.text += util.format.apply(process.stdout, arguments) + '\n'; // write to nginx
+     } 
+ })(process.stdout.write);
 
 function runServer(port = PORT) {
   const server = app
