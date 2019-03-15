@@ -53,7 +53,6 @@ router.get('/', (req, res, next) => {
 router.get('/completed', (req, res, next) => {
 	return Game.find({
 		season: '5c257230981836782a7c6e80',
-		completed: true
 	})
 	.sort({time: 1})
 	.populate('home')
