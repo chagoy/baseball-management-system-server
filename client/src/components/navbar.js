@@ -23,7 +23,7 @@ class Navbar extends React.Component {
 					{/* <Link to={'/register'}>Get Involved</Link> */}
 					<Link to={'/league'}>League</Link>
 					<Link to={'/rules'}>Rules</Link>
-					<Link to={'/login'}>Login</Link>
+					{/* <Link to={'/login'}>Login</Link> */}
 				</div>
 			)
 		} else {

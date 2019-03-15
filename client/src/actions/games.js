@@ -120,7 +120,7 @@ export const fetchCompletedGames = () => (dispatch, getState) => {
 export const fetchUpcomingGames = game => (dispatch, getState) => {
 	// const authToken = getState().auth.authToken;
 	
-	return fetch(`${API_BASE_URL}/api/games`, {
+	return fetch(`${API_BASE_URL}/api/games/upcoming`, {
 		method: 'GET',
 		headers: {
 			'content-type': 'application/json',
@@ -180,6 +180,7 @@ export const updateScores = game => (dispatch, getState) => {
 	.then(res => normalizeResponseErrors(res))
 	.then(res => res.json())
 	.catch(err => {
+		console.log(err);
 		const {reason, message, location} = err;
 		if (reason === 'ValidationError') {
 			return Promise.reject(

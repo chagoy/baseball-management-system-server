@@ -65,7 +65,8 @@ router.get('/completed', (req, res, next) => {
 router.get('/upcoming', (req, res, next) => {
 	let today = moment().startOf('day').toISOString();
 	let end = moment(today).add(6, 'months').toISOString();
-
+	console.log(today);
+	console.log(end);
 	return Game.find({
 		season: "5c257230981836782a7c6e80", 
 		time: {
@@ -76,7 +77,7 @@ router.get('/upcoming', (req, res, next) => {
 	.sort({time: 1})
 	.populate('home')
 	.populate('away')
-	.then(games => console.log(games))
+	.then(games => res.status(201).json(games))
 	.catch(err => console.error(err.message))
 });
 
@@ -156,12 +157,12 @@ router.put('/scores', jwtAuth, async (req, res, next) => {
 	console.log('before')
 	console.log(awayScore, homeScore);
 	let game = await Game.findByIdAndUpdate({_id: id});
-	console.log(dateTime)
+	// console.log(dateTime)
 	let time = dateTime ? dateTime : game.time;
-	awayScore = Game.awayScore ? Game.awayScore : awayScore;
-	homeScore = Game.homeScore ? Game.homeScore : homeScore;
-	console.log('after');
-	console.log(awayScore, homeScore);
+	// awayScore = Game.awayScore ? Game.awayScore : awayScore;
+	// homeScore = Game.homeScore ? Game.homeScore : homeScore;
+	// console.log('after');
+	// console.log(awayScore, homeScore);
 
 	if (!req.user.admin) {
 		return res.status(422).json({message: 'You do not have permission to update game scores'})
