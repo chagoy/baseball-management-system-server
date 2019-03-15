@@ -5,6 +5,7 @@ import GamesList from './games-list';
 import { fetchProtectedData } from '../actions/protected-data';
 import PlayerCard from './player-card';
 import { Button } from 'semantic-ui-react';
+import moment from 'moment';
 
 export class Dashboard extends React.Component {
 	componentDidMount() {
@@ -38,6 +39,11 @@ export class Dashboard extends React.Component {
 				<Link to='/admin'><Button>Table View</Button></Link>
 			</div>
 		) : '';
+
+		let today = moment().startOf('day').toISOString();
+		let end = moment(today).add(6, 'months').toISOString();
+		console.log('today and end');
+		console.log(today, end);
 
 		return (
 			<div className='dashboard'>
