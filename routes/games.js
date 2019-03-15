@@ -152,7 +152,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 
 router.put('/scores', jwtAuth, async (req, res, next) => {
 
-	const { id, homeId, awayId, homeScore, awayScore, dateTime } = req.body;
+	let { id, homeId, awayId, homeScore, awayScore, dateTime } = req.body;
 	console.log('before')
 	console.log(awayScore, homeScore);
 	let game = await Game.findByIdAndUpdate({_id: id});
@@ -167,8 +167,14 @@ router.put('/scores', jwtAuth, async (req, res, next) => {
 		return res.status(422).json({message: 'You do not have permission to update game scores'})
 	}
 
-
-
+	awayScore = Number(awayScore);
+	homeScore = Number(homeScore);
+	console.log('away score', awayScore);
+	console.log('home score', homeScore);
+	console.log(typeof awayScore);
+	console.log(typeof homeScore);
+	console.log('is away score greater than home score', awayScore > homeScore)
+	console.log('is home score greater than away score', homeScore > awayScore)
 	//update is still really weird
 	// we need to do some checks back here so we don't override anything
 

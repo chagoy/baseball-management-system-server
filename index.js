@@ -101,12 +101,12 @@ app.post('/api/stripe', jwtAuth, async (req, res) => {
 //   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 // });
 
-process.stdout.write = (function(write) {   
-    return function(text, encoding, fd) {
-        write.apply(process.stdout, arguments); // write to console
-        nxFile.text += util.format.apply(process.stdout, arguments) + '\n'; // write to nginx
-     } 
- })(process.stdout.write);
+// process.stdout.write = (function(write) {   
+//     return function(text, encoding, fd) {
+//         write.apply(process.stdout, arguments); // write to console
+//         nxFile.text += util.format.apply(process.stdout, arguments) + '\n'; // write to nginx
+//      } 
+//  })(process.stdout.write);
 
 function runServer(port = PORT) {
   const server = app
