@@ -31,6 +31,10 @@ export default function GameElement(props) {
 	}
 
 	console.log(props.game.time);
+	let today = moment().startOf('day').toISOString();
+	let end = moment(today).add(6, 'months').toISOString();
+	console.log('today and end');
+	console.log(today, end);
 
 	return (
 		<Segment textAlign='center'>
