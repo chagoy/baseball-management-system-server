@@ -3,6 +3,7 @@ import ScoreForm from './score-form';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react';
 
 export default function SemanticModal(props) {
+	console.log(props.game)
 	return (
 		<Modal trigger={<Button>Edit Scores</Button>} closeIcon>
 	    <Header icon='archive' content='Update Game Score' />

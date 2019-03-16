@@ -127,6 +127,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	}
 
 	let {home, away, location, dateTime} = req.body;
+	console.log(dateTime)
 	let game;
 	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').utc().toISOString();
 
@@ -149,6 +150,19 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 })
 
 //random change
+
+router.delete('/delete/:id', jwtAuth, async (req, res, next) => {
+	console.log(req.params.id)
+	const game = req.params.id;
+	console.log('attempting to delete')
+	return Game.findByIdAndRemove({_id: game})
+		.then(data => {
+			res.status(201).json({hello: 'record deleted'})
+		})	
+		.catch(err => {
+			res.status(401).json(err);
+		})
+})
 
 router.put('/scores', jwtAuth, async (req, res, next) => {
 

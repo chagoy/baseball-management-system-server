@@ -166,6 +166,30 @@ export const fetchGames = game => (dispatch, getState) => {
 	})
 }
 
+export const deleteGame = game => (dispatch, getState) => {
+	const authToken = getState().auth.authToken;
+	return fetch(`${API_BASE_URL}/api/games/delete/${game}`, {
+		method: 'DELETE', 
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': `Bearer ${authToken}`
+		}
+	})
+	.then(res => normalizeResponseErrors(res))
+	.then(res => res.json())
+	.catch(err => {
+		console.log(err);
+		const {reason, message, location} = err;
+		if (reason === 'ValidationError') {
+			return Promise.reject(
+				new SubmissionError({
+					[location]: message
+				})
+			);
+		}
+	})
+}
+
 export const updateScores = game => (dispatch, getState) => {
 	const authToken = getState().auth.authToken;
 
