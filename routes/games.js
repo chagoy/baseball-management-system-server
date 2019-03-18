@@ -62,12 +62,14 @@ router.get('/completed', (req, res, next) => {
 })
 
 router.get('/upcoming', (req, res, next) => {
+	let localSeason = '5c2e49b70fce4237fdc70ab7'
+	let season = "5c257230981836782a7c6e80";
 	let today = moment().startOf('day').toISOString();
 	let end = moment(today).add(6, 'months').toISOString();
 	console.log(today);
 	console.log(end);
 	return Game.find({
-		season: "5c257230981836782a7c6e80", 
+		season: season, 
 		time: {
 			$gte: today,
 			$lt: end
