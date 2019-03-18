@@ -149,6 +149,32 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	})
 })
 
+router.post('/bulk', jwtAuth, async (req, res, next) => {
+	let games = req.body.games;
+	let season = '5c257230981836782a7c6e80';
+	// let localSeason = '5c2e49b70fce4237fdc70ab7';
+
+	games.forEach(game => {
+		game.time = moment(game.dateTime, 'MM-DD-YYYY h:mm a').utc().toISOString();
+		game.season = season;
+	})
+
+	let sea = await Season.findOne({_id: season});
+	console.log(sea);
+
+	return Game.insertMany(games)
+		.then(games => {
+			let ids = games.map(game => game._id);
+			
+			return Season.findOneAndUpdate({_id: season}, {$push: {games: {$each: ids}}}, {$new: true})
+			.then(season => res.status(201).json(season))
+			.catch(err => console.error(err))
+		})
+		.catch(err => {
+			console.error(err)
+		})
+})
+
 //random change
 
 router.delete('/delete/:id', jwtAuth, async (req, res, next) => {

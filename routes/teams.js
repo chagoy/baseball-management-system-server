@@ -155,6 +155,18 @@ router.get('/:team', jsonParser, (req, res, next) => {
 			.catch(err => console.error(err.message))
 })
 
+router.get('/division/:division', jsonParser, (req, res, next) => {
+	const { division } = req.params;
+	console.log(division)
+	return Team.find({division: division})
+		.then(teams => {
+			console.log(teams.length)
+			let names = teams.map(team => console.log(team.name));
+			console.log(names);
+			res.status(201).json(teams)
+		})
+})
+
 router.delete('/delete/:team', jsonParser, (req, res, next) => {
 	const { team } = req.params;
 	console.log(`going to delete ${team} from the database`);

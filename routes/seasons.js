@@ -25,6 +25,12 @@ router.get('/', jwtAuth, (req, res) => {
 	}
 })
 
+router.get('/:id', jwtAuth, (req, res) => {
+	let season = '5c2e49b70fce4237fdc70ab7';
+	return Season.findOne({_id: season})
+		.then(season => console.log(season))
+})
+
 router.post('/', jwtAuth, jsonParser, (req, res, json) => {
 	const requiredFields = ['season', 'year'];
 	const missingField = requiredFields.find(field => !(field in req.body));
