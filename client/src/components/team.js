@@ -29,7 +29,7 @@ export class Team extends React.Component {
 			<React.Fragment>
 				{gamesData}
 				<br/>
-				<Button onClick={e => this.handleClick(e)} color='red'>Delete team</Button>
+				{/* <Button onClick={e => this.handleClick(e)} color='red'>Delete team</Button> */}
 			</React.Fragment>
 		)
 	}

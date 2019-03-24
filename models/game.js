@@ -6,16 +6,17 @@ mongoose.Promise = global.Promise;
 
 const GameSchema = mongoose.Schema({
 	season: { type: mongoose.Schema.Types.ObjectId, ref: 'Season' },
-	home: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
-	away: { type: mongoose.Schema.Types.ObjectId, ref: 'Team'},
+	home: { type: mongoose.Schema.Types.ObjectId, ref: 'Team', required: true},
+	away: { type: mongoose.Schema.Types.ObjectId, ref: 'Team', required: true },
 	time: { type: String, required: true },
-	location: { type: String, required: true },
+	location: { type: String },
 	winner: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	loser: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	draw: { type: Boolean, default: false },
 	homeScore: { type: Number },
 	awayScore: { type: Number },
-	completed: { type: Boolean, default: false }
+	completed: { type: Boolean, default: false },
+	division: { type: String }
 });
 
 GameSchema.set('toJson', {virtuals: true});

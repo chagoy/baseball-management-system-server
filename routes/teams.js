@@ -180,17 +180,17 @@ router.delete('/delete/:team', jsonParser, (req, res, next) => {
 
 })
 
-router.get('/reset/everything/teams', jwtAuth, (req, res, next) => {
-	const { email } = req.user;
+// router.get('/reset/everything/teams', jwtAuth, (req, res, next) => {
+// 	const { email } = req.user;
 
-	if (email == 'angelochagoy@gmail.com') {
-		console.log('you are the master');
-		console.log('time to reset everything');
-		//delete all teams
-		//delete all games
-		return Team.deleteMany({}).then(() => res.status(201).send('done'));
-	}
-})
+// 	if (email == 'angelochagoy@gmail.com') {
+// 		console.log('you are the master');
+// 		console.log('time to reset everything');
+// 		//delete all teams
+// 		//delete all games
+// 		return Team.deleteMany({}).then(() => res.status(201).send('done'));
+// 	}
+// })
 
 router.get('/reset/everything/games', jwtAuth, (req, res, next) => {
 	const { email } = req.user;

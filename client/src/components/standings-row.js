@@ -17,7 +17,7 @@ export default function StandingsRow(props) {
 				<Header as='h4' image>
 					<Image src={props.team.logo} size='mini' />
 					<Header.Content>
-						{teamName}
+						<Link to={`/team/${props.team._id}`}>{props.team.name}</Link>
 					</Header.Content>
 				</Header>
 			</Table.Cell>

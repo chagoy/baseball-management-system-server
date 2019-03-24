@@ -37,8 +37,10 @@ router.get('/user', jwtAuth, async (req, res) => {
 })
 
 router.get('/', (req, res, next) => {
+	let localSeason = '5c2e49b70fce4237fdc70ab7'
+	let season = "5c257230981836782a7c6e80";
 	return Game.find({
-		season: '5c257230981836782a7c6e80'
+		season: localSeason
 	})
 	.sort({time: 1})
 	.populate('home')
@@ -51,8 +53,11 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/completed', (req, res, next) => {
+	let localSeason = '5c2e49b70fce4237fdc70ab7'
+	let season = "5c257230981836782a7c6e80";
 	return Game.find({
-		season: '5c257230981836782a7c6e80',
+		season: localSeason,
+		completed: true
 	})
 	.sort({time: 1})
 	.populate('home')
@@ -69,7 +74,7 @@ router.get('/upcoming', (req, res, next) => {
 	console.log(today);
 	console.log(end);
 	return Game.find({
-		season: season, 
+		season: localSeason, 
 		time: {
 			$gte: today,
 			$lt: end
@@ -95,6 +100,7 @@ router.get('/byteam/:id', (req, res, next) => {
 	let { id } = req.params;
 	console.log(id)
 	return Game.find({$or: [{home: id}, {away: id}]})
+			.sort({time: 1})
 			.populate('home')
 			.populate('away')
 			.then(games => res.status(201).json(games))
@@ -103,7 +109,10 @@ router.get('/byteam/:id', (req, res, next) => {
 })
 
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
-	const requiredFields = ['home', 'away', 'dateTime', 'location'];
+	// let season = '5c257230981836782a7c6e80';
+	let localSeason = '5c2e49b70fce4237fdc70ab7';
+	
+	const requiredFields = ['home', 'away', 'dateTime', 'location', 'division'];
 	const missingField = requiredFields.find(field => !(field in req.body));
 
 	if (missingField) {
@@ -115,7 +124,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		})
 	}
 
-	const stringFields = ['home', 'away', 'location'];
+	const stringFields = ['home', 'away', 'location', 'division'];
 	const nonStringField = stringFields.find(field => field in req.body && typeof req.body[field] !== 'string'
 		);
 
@@ -128,13 +137,13 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 		});
 	}
 
-	let {home, away, location, dateTime} = req.body;
+	let {home, away, location, dateTime, division} = req.body;
 	console.log(dateTime)
 	let game;
 	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').utc().toISOString();
 
 	return Game.create({
-		home, away, location, time, season: '5c257230981836782a7c6e80'
+		division, home, away, location, time, season: localSeason
 	})
 	.then(_game => {
 		game = _game;
@@ -153,28 +162,33 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 
 router.post('/bulk', jwtAuth, async (req, res, next) => {
 	let games = req.body.games;
-	let season = '5c257230981836782a7c6e80';
-	// let localSeason = '5c2e49b70fce4237fdc70ab7';
-
+	// let season = '5c257230981836782a7c6e80';
+	let localSeason = '5c2e49b70fce4237fdc70ab7';
+	console.log(localSeason);
+	console.log('trying to do a bulk insert');
 	games.forEach(game => {
 		game.time = moment(game.dateTime, 'MM-DD-YYYY h:mm a').utc().toISOString();
-		game.season = season;
+		game.season = localSeason;
 	})
 
-	let sea = await Season.findOne({_id: season});
-	console.log(sea);
-
-	return Game.insertMany(games)
+	let sea = await Season.findOne({_id: localSeason});
+	console.log(games);
+	try {
+		return Game.insertMany(games)
 		.then(games => {
 			let ids = games.map(game => game._id);
-			
-			return Season.findOneAndUpdate({_id: season}, {$push: {games: {$each: ids}}}, {$new: true})
+			console.log(games);
+			return Season.findOneAndUpdate({_id: localSeason}, {$push: {games: {$each: ids}}}, {$new: true})
 			.then(season => res.status(201).json(season))
 			.catch(err => console.error(err))
 		})
 		.catch(err => {
 			console.error(err)
 		})
+	} catch (e) {
+		console.log(e)
+	}
+	res.status(201).send('hello');
 })
 
 //random change
@@ -278,6 +292,33 @@ router.put('/scores', jwtAuth, async (req, res, next) => {
 	// } else {
 	// 	res.status(422).json({message: 'You are not authorized to update scores'})
 	// }
+})
+
+router.get('/division/:division', (req, res, next) => {
+	const { division } = req.params;
+	console.log(division);
+	return Game.find({'home.division': division})
+		.populate('home')
+		.populate('away')
+		.then(games => {
+			res.status(201).json(games);
+		})
+})
+
+router.get('/bulk/division/update', async (req, res, next) => {
+	let bulk = Game.collection.initializeOrderedBulkOp();
+	let teams = await Team.find({});
+
+	let games = await Game.find({});
+
+	games.forEach(async game => {
+		if (teams.find(team => team._id == game.home._id)) {
+			return await Game.findByIdAndUpdate({_id: game._id}, {$set: { division: team.division }})
+		}
+	})
+
+	// let update = await Game.find({}).then(console.log)
+	
 })
 
 module.exports = { router };
