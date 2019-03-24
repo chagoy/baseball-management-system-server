@@ -57,7 +57,6 @@ router.get('/completed', (req, res, next) => {
 	let season = "5c257230981836782a7c6e80";
 	return Game.find({
 		season: season,
-		completed: true
 	})
 	.sort({time: 1})
 	.populate('home')
@@ -109,7 +108,7 @@ router.get('/byteam/:id', (req, res, next) => {
 })
 
 router.post('/', jwtAuth, jsonParser, (req, res, next) => {
-	// let season = '5c257230981836782a7c6e80';
+	let season = '5c257230981836782a7c6e80';
 	let localSeason = '5c2e49b70fce4237fdc70ab7';
 	
 	const requiredFields = ['home', 'away', 'dateTime', 'location', 'division'];
