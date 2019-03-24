@@ -40,7 +40,7 @@ router.get('/', (req, res, next) => {
 	let localSeason = '5c2e49b70fce4237fdc70ab7'
 	let season = "5c257230981836782a7c6e80";
 	return Game.find({
-		season: localSeason
+		season: season
 	})
 	.sort({time: 1})
 	.populate('home')
@@ -56,7 +56,7 @@ router.get('/completed', (req, res, next) => {
 	let localSeason = '5c2e49b70fce4237fdc70ab7'
 	let season = "5c257230981836782a7c6e80";
 	return Game.find({
-		season: localSeason,
+		season: season,
 		completed: true
 	})
 	.sort({time: 1})
@@ -74,7 +74,7 @@ router.get('/upcoming', (req, res, next) => {
 	console.log(today);
 	console.log(end);
 	return Game.find({
-		season: localSeason, 
+		season: season, 
 		time: {
 			$gte: today,
 			$lt: end
@@ -143,7 +143,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 	let time = moment(dateTime, 'MM-DD-YYYY h:mm a').utc().toISOString();
 
 	return Game.create({
-		division, home, away, location, time, season: localSeason
+		division, home, away, location, time, season: season
 	})
 	.then(_game => {
 		game = _game;
@@ -162,23 +162,23 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 
 router.post('/bulk', jwtAuth, async (req, res, next) => {
 	let games = req.body.games;
-	// let season = '5c257230981836782a7c6e80';
-	let localSeason = '5c2e49b70fce4237fdc70ab7';
-	console.log(localSeason);
+	let season = '5c257230981836782a7c6e80';
+	// let localSeason = '5c2e49b70fce4237fdc70ab7';
+	console.log(season);
 	console.log('trying to do a bulk insert');
 	games.forEach(game => {
 		game.time = moment(game.dateTime, 'MM-DD-YYYY h:mm a').utc().toISOString();
-		game.season = localSeason;
+		game.season = season;
 	})
 
-	let sea = await Season.findOne({_id: localSeason});
+	let sea = await Season.findOne({_id: season});
 	console.log(games);
 	try {
 		return Game.insertMany(games)
 		.then(games => {
 			let ids = games.map(game => game._id);
 			console.log(games);
-			return Season.findOneAndUpdate({_id: localSeason}, {$push: {games: {$each: ids}}}, {$new: true})
+			return Season.findOneAndUpdate({_id: season}, {$push: {games: {$each: ids}}}, {$new: true})
 			.then(season => res.status(201).json(season))
 			.catch(err => console.error(err))
 		})
