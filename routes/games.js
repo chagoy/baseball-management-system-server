@@ -162,7 +162,7 @@ router.post('/', jwtAuth, jsonParser, (req, res, next) => {
 router.post('/bulk', jwtAuth, async (req, res, next) => {
 	let games = req.body.games;
 	let season = '5c257230981836782a7c6e80';
-	// let localSeason = '5c2e49b70fce4237fdc70ab7';
+	let localSeason = '5c2e49b70fce4237fdc70ab7';
 	console.log(season);
 	console.log('trying to do a bulk insert');
 	games.forEach(game => {
@@ -253,7 +253,11 @@ router.put('/scores', jwtAuth, async (req, res, next) => {
 			.then(() => Team.findByIdAndUpdate({_id: game.home}, {$inc: {"losses": 1}}))
 			.then(() => Game.findByIdAndUpdate({_id: id}, {homeScore: homeScore, awayScore: awayScore, completed: true, time, winner: game.away, loser: game.home}, {$new: true }))
 			.then(updatedGame => res.status(201).json(updatedGame))
-		} else return Game.findByIdAndUpdate({_id: id}, {completed: true, time, homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true})
+		} else {
+			return Team.findByIdAndUpdate({_id: game.away}, {$inc: {"draws": 1}})
+			.then(() => Team.findByIdAndUpdate({_id: game.home}, {$inc: {"draws": 1}}))
+			.then( () => Game.findByIdAndUpdate({_id: id}, {completed: true, time, homeScore: homeScore, awayScore: awayScore, draw: true}, {$new: true}))
+		}
 	}
 
 	return res.status(422).json({message: 'An error has occurred updating the scores'})
@@ -295,8 +299,8 @@ router.put('/scores', jwtAuth, async (req, res, next) => {
 
 router.get('/division/:division', (req, res, next) => {
 	const { division } = req.params;
-	console.log(division);
-	return Game.find({'home.division': division})
+	console.log(req.params);
+	return Game.find({division: division})
 		.populate('home')
 		.populate('away')
 		.then(games => {
@@ -304,20 +308,20 @@ router.get('/division/:division', (req, res, next) => {
 		})
 })
 
-router.get('/bulk/division/update', async (req, res, next) => {
-	let bulk = Game.collection.initializeOrderedBulkOp();
-	let teams = await Team.find({});
+// router.get('/bulk/division/update', async (req, res, next) => {
+// 	let bulk = Game.collection.initializeOrderedBulkOp();
+// 	let teams = await Team.find({});
 
-	let games = await Game.find({});
+// 	let games = await Game.find({});
 
-	games.forEach(async game => {
-		if (teams.find(team => team._id == game.home._id)) {
-			return await Game.findByIdAndUpdate({_id: game._id}, {$set: { division: team.division }})
-		}
-	})
+// 	games.forEach(async game => {
+// 		if (teams.find(team => team._id == game.home._id)) {
+// 			return await Game.findByIdAndUpdate({_id: game._id}, {$set: { division: team.division }})
+// 		}
+// 	})
 
-	// let update = await Game.find({}).then(console.log)
+// 	// let update = await Game.find({}).then(console.log)
 	
-})
+// })
 
 module.exports = { router };

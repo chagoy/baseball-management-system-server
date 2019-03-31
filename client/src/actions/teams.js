@@ -1,6 +1,5 @@
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from './utils';
-// import {loadAuthToken} from '../local-storage';
 import {SubmissionError} from 'redux-form';
 
 export const FETCH_TEAM_SUCCESS = 'FETCH_TEAM_SUCCESS';
@@ -57,6 +56,18 @@ export const fetchTeamGamesErrors = error => ({
 	type: FETCH_TEAM_GAMES_ERRORS,
 	error
 });
+
+export const getTeam = team => (dispatch, getState) => {
+	return fetch(`${API_BASE_URL}/api/teams/${team}`, {
+		method: 'GET',
+	})
+	.then(res => normalizeResponseErrors(res))
+	.then(res => res.json())
+	.then(data => dispatch(fetchTeamSuccess(data)))
+	.catch(err => {
+		dispatch(fetchAllTeamsError(err));
+	})
+}
 
 export const createTeam = team => (dispatch, getState) => {
 	const authToken = getState().auth.authToken;
@@ -146,5 +157,23 @@ export const deleteTeam = (team) => (dispatch, getState) => {
 			'content-type': 'application/json',
 			'Authorization': `Bearer ${authToken}`
 		}
+	})
+}
+
+export const updateTeam = team => (dispatch, getState) => {
+	const authToken = getState().auth.authToken;
+	return fetch(`${API_BASE_URL}/api/teams/update`, {
+		method: 'put',
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': `Bearer ${authToken}`
+		},
+		body: JSON.stringify(team)
+	})
+	.then(res => normalizeResponseErrors(res))
+	.then(res => res.json())
+	.then(data => dispatch(fetchTeamSuccess(data)))
+	.catch(err => {
+		dispatch(fetchAllTeamsError(err));
 	})
 }

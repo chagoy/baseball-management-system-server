@@ -73,8 +73,7 @@ export const fetchAllGames = () => (dispatch, getState) => {
 	return fetch(`${API_BASE_URL}/api/games`, {
 		method: 'GET',
 		headers: {
-			'content-type': 'application/json',
-			'Authorization': `Bearer ${authToken}`
+			'content-type': 'application/json'
 		}
 	})
 	.then(res => normalizeResponseErrors(res))
@@ -100,6 +99,28 @@ export const fetchCompletedGames = () => (dispatch, getState) => {
 		headers: {
 			'content-type': 'application/json',
 			'Authorization': `Bearer ${authToken}`
+		}
+	})
+	.then(res => normalizeResponseErrors(res))
+	.then(res => res.json())
+	.then(data => dispatch(fetchGamesSuccess(data)))
+	.catch(err => {
+		const {reason, message, location} = err;
+		if (reason === 'ValidationError') {
+			return Promise.reject(
+				new SubmissionError({
+					[location]: message
+				})
+			)
+		}
+	})
+}
+
+export const fetchDivisionGames = division => (dispatch, getState) => {
+	return fetch(`${API_BASE_URL}/api/games/division/${division}`, {
+		method: 'GET',
+		headers: {
+			'content-type': 'application/json'
 		}
 	})
 	.then(res => normalizeResponseErrors(res))

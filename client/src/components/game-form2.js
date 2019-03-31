@@ -12,7 +12,8 @@ class GameForm2 extends React.Component {
             home: '',
             away: '',
             location: '',
-            dateTime: ''
+            dateTime: '',
+            division: ''
         }
     }
 
@@ -28,7 +29,7 @@ class GameForm2 extends React.Component {
             this.setState({ home: '',
             away: '',
             location: '',
-            dateTime: '' })]);
+            dateTime: '', division: '' })]);
     }
 
     // [{ key: 'af', value: 'af', flag: 'af', text: 'Afghanistan' }, ...{}]
@@ -51,12 +52,17 @@ class GameForm2 extends React.Component {
             { key: 'pue', value: 'La Puente Park', text: 'La Puente Park'},
         ]
 
+        let divisions = [
+            { key: 'shetland', value: 'shetland', text: 'Shetland' },
+            { key: 'pinto', value: 'pinto', text: 'Pinto' },
+            { key: 'mustang', value: 'mustang', text: 'Mustang' },
+            { key: 'bronco', value: 'bronco', text: 'Bronco' },
+            { key: 'pony', value: 'pony', text: 'PONY' }
+        ]
+
         let teams = this.props.teams.map(team => ({key: team.id, value: team._id, text: `${team.name} - ${team.division}`}));
 
-        console.log(this.props.teams);
-
-        console.log(teams);
-        const { home, away, location } = this.state;
+        const { home, away, location, division } = this.state;
         return (
             <React.Fragment>
                 <h2>Add A Game</h2>
@@ -75,6 +81,9 @@ class GameForm2 extends React.Component {
                     </Form.Field>
                     <Form.Field inline>
                         <Select name='location' value={location} onChange={this.handleChange} placeholder='Game location?' options={locations}/>
+                    </Form.Field>
+                    <Form.Field inline>
+                        <Select name='division' value={division} onChange={this.handleChange} placeholder='Division?' options={divisions}/>
                     </Form.Field>
                     <Form.Field inline>
                         <Select name='away' value={away} onChange={this.handleChange} placeholder='Away' options={teams}/>

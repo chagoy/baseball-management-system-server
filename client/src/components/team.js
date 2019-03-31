@@ -1,16 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchTeam } from '../actions/teams';
-import { fetchTeamGames, deleteTeam } from '../actions/teams';
+import { getTeam, fetchTeamGames, deleteTeam } from '../actions/teams';
 import GameElement from './game-element';
-import { Button } from 'semantic-ui-react';
+import { Button, Container, Header } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
+import TeamEdit from './team-edit';
 
 export class Team extends React.Component {
 	componentWillMount() {
 		console.log(this.props.match.params.id);
 		let teamId = this.props.match.params.id;
-		return this.props.dispatch(fetchTeamGames(teamId))
+		return Promise.all([
+			this.props.dispatch(fetchTeamGames(teamId)),
+			this.props.dispatch(getTeam(teamId))
+		])
 	}
 
 	handleClick(e) {
@@ -26,11 +29,12 @@ export class Team extends React.Component {
 		let gamesData = this.props.games.length > 0 ? this.props.games.map((game, index) => <GameElement admin={this.props.admin} key={ index } game={ game }/>) : 'No games to show';
 
 		return (
-			<React.Fragment>
+			<Container>
+				<Header as='h1'>{this.props.team.name}</Header>
 				{gamesData}
 				<br/>
-				{/* <Button onClick={e => this.handleClick(e)} color='red'>Delete team</Button> */}
-			</React.Fragment>
+				<TeamEdit/>
+			</Container>
 		)
 	}
 }

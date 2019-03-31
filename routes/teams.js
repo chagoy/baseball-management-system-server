@@ -144,7 +144,7 @@ router.get('/standings', async (req, res) => {
 router.get('/:team', jsonParser, (req, res, next) => {
 	const {team} = req.params;
 	
-	return Team.findOne({name: team}).populate('players')
+	return Team.findOne({_id: team})
 			.then(data => {
 				if (data) {
 					res.status(201).json(data);
@@ -178,6 +178,21 @@ router.delete('/delete/:team', jsonParser, (req, res, next) => {
 			res.status(401).json(err);
 		})
 
+})
+
+router.put('/update', jwtAuth, jsonParser, (req, res, next) => {
+	const { id, wins, losses, draws } = req.body;
+
+	console.log(id);
+	console.log(wins);
+	console.log(losses);
+	console.log(draws);
+
+	return Team.findOneAndUpdate(
+		{ _id: id}, 
+		{ $set: { wins, losses, draws }, returnNewDocument: true }
+	).then(team => res.status(201).json(team))
+	.catch(err => console.error(err))
 })
 
 // router.get('/reset/everything/teams', jwtAuth, (req, res, next) => {

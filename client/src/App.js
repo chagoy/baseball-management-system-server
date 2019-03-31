@@ -30,6 +30,8 @@ import PintoRules from './components/pinto-rules';
 import MustangRules from './components/mustang-rules';
 import BroncoRules from './components/bronco-rules';
 import NewsPage from './components/news-page';
+import DivisionSchedule from './components/division-schedule';
+import GameTable from './components/game-table';
 
 export class App extends Component {
 
@@ -44,6 +46,7 @@ export class App extends Component {
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path='/league' component={LeaguePage} />
           <Route exact path='/schedule' component={Schedule} />
+          <Route exact path='/schedule/:division' component={DivisionSchedule} />
           <Route exact path="/register-player" component={RegisterPlayer} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/player/:id" component={PlayerPage} />
@@ -52,6 +55,7 @@ export class App extends Component {
           {/*<Route path='/game/:id' component={GamePage} />*/}
           <Route exact path='/standings' component={StandingsPage} />
           <Route path="/create" component={AdminCreate} />
+          <Route path='/gametable' component={GameTable} />
           <Route path="/admin" component={AdminPage} />
           <Route exact path='/reset' component={ResetPage} />
           <Route path='/reset/:hash' component={PassResetPage} />

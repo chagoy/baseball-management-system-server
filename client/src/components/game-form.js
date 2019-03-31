@@ -60,6 +60,12 @@ class GameForm extends React.Component {
 							options={{'Garvey Ranch - Big': 'Garvey Ranch - Big', 'Garvey Ranch - Small': 'Garvey Ranch - Small', 'Sequoia': 'Sequoia Park', 'McKinley Elementary': 'McKinley Elementary', 'Vincent Lugo Park': 'Vincent Lugo Park', 'Lower La Loma': 'Lower La Loma', 'Upper La Loma': 'Upper La Loma', 'Sylmar Independent': 'Sylmar Independent', 'Live Oak Park': 'Live Oak Park', 'Ford Park': 'Ford Park', 'Veterans Park': 'Veterans Park', 'Diamond Bar': 'Diamond Bar', 'Duarte Sports Park': 'Duarte Sports Park', 'La Puente Park': 'La Puente Park'}}
 							name="location"
 				/>
+				<label htmlFor='division'>Division</label>
+				<Field component={Select}
+						selectInput='division-select'
+						options={{'Shetland': 'Shetland', 'Pinto': 'Pinto', 'Mustang': 'Mustang', 'Bronco': 'Bronco', 'PONY': 'PONY'}}
+						name='division'
+				/>
 				<label htmlFor="time">Date & Time</label>
 				<Field component={renderDatePicker} name="time" />
 				<button className="team-button" type="submit" disabled={this.props.pristine || this.props.submitting}>submit</button>
